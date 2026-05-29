@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GitHub 热门 Python 仓库 Top 10</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --ink: #13293d;
+            --ink-soft: #254e70;
+            --bg: #f4f8fb;
+            --card: #ffffff;
+            --line: #d6e2ec;
+            --accent: #1b98e0;
+            --accent-2: #247ba0;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 10% 10%, #e9f3fb 0%, transparent 40%),
+                radial-gradient(circle at 90% 20%, #e3eef9 0%, transparent 32%),
+                linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+        }
+
+        .page-wrap {
+            max-width: 1180px;
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #0b2545 0%, #134074 52%, #1d5b8f 100%);
+            color: #fff;
+            border-radius: 22px;
+            box-shadow: 0 20px 44px rgba(12, 45, 77, 0.22);
+        }
+
+        .hero h1 {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .hero p {
+            color: rgba(255, 255, 255, 0.88);
+            margin-bottom: 0;
+        }
+
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            box-shadow: 0 10px 24px rgba(18, 62, 102, 0.09);
+        }
+
+        .repo-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(28, 76, 115, 0.08);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .repo-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(28, 76, 115, 0.14);
+        }
+
+        .repo-title {
+            font-size: 1.15rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .repo-title a {
+            color: var(--ink-soft);
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+        }
+
+        .repo-title a:hover {
+            color: var(--accent-2);
+            border-bottom-color: var(--accent-2);
+        }
+
+        .repo-desc {
+            color: #2c4b66;
+        }
+
+        .rank-badge {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #fff;
+            font-weight: 600;
+            border-radius: 999px;
+            padding: 0.45rem 0.8rem;
+        }
+
+        .repo-meta span {
+            display: block;
+            color: #5d7488;
+            font-size: 0.85rem;
+            margin-bottom: 2px;
+        }
+
+        .repo-meta strong {
+            font-size: 0.96rem;
+            color: #1e3f5a;
+        }
+
+        .sort-toolbar .btn-sort {
+            border-radius: 999px;
+            border: 1px solid #8fb7d8;
+            color: #0f3f61;
+            background: #f4fbff;
+            padding: 0.45rem 1rem;
+            font-weight: 600;
+        }
+
+        .sort-toolbar .btn-sort.active {
+            color: #fff;
+            border-color: transparent;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        }
+    </style>
+</head>
+<body>
+    <main class="container page-wrap py-4 py-md-5">
+        <section class="hero p-4 p-md-5 mb-4">
+            <h1 class="h2 mb-2">GitHub 热门 Python 仓库 Top 10</h1>
+            <p>专业交互图表 + 项目详情卡片。数据来源：GitHub Search API，生成时间：2026-05-29 10:53:23</p>
+            <div class="sort-toolbar mt-3 d-flex gap-2">
+                <button id="sort-stars" type="button" class="btn btn-sort active">按 Stars 排序</button>
+                <button id="sort-forks" type="button" class="btn btn-sort">按 Forks 排序</button>
+            </div>
+        </section>
+
+        <section class="panel p-2 p-md-3 mb-4">
+            <div>                        <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.5.0.min.js" integrity="sha256-fHbNLP+GlIXN+efbQec78UkemUz3NJp7UmfGxC1tNxs=" crossorigin="anonymous"></script>                <div id="7dda1bd9-c783-4794-a20c-c3dd7dcb3b59" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("7dda1bd9-c783-4794-a20c-c3dd7dcb3b59")) {                    Plotly.newPlot(                        "7dda1bd9-c783-4794-a20c-c3dd7dcb3b59",                        [{"hovertemplate":"%{hovertext}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["\u4f5c\u8005\uff1apublic-apis\u003cbr \u002f\u003e\u661f\u6807\uff1a437,676\u003cbr \u002f\u003eForks\uff1a47,980\u003cbr \u002f\u003eOpen Issues\uff1a1,373\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 02:51:09\u003cbr \u002f\u003e\u7b80\u4ecb\uff1aA collective list of free APIs","\u4f5c\u8005\uff1aEbookFoundation\u003cbr \u002f\u003e\u661f\u6807\uff1a389,111\u003cbr \u002f\u003eForks\uff1a66,354\u003cbr \u002f\u003eOpen Issues\uff1a82\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 02:52:14\u003cbr \u002f\u003e\u7b80\u4ecb\uff1a:books: Freely available programming books","\u4f5c\u8005\uff1avinta\u003cbr \u002f\u003e\u661f\u6807\uff1a300,098\u003cbr \u002f\u003eForks\uff1a27,987\u003cbr \u002f\u003eOpen Issues\uff1a23\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 02:29:13\u003cbr \u002f\u003e\u7b80\u4ecb\uff1aAn opinionated list of Python frameworks, libraries, tools, and resources","\u4f5c\u8005\uff1aTheAlgorithms\u003cbr \u002f\u003e\u661f\u6807\uff1a221,458\u003cbr \u002f\u003eForks\uff1a50,670\u003cbr \u002f\u003eOpen Issues\uff1a925\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 02:46:10\u003cbr \u002f\u003e\u7b80\u4ecb\uff1aAll Algorithms implemented in Python","\u4f5c\u8005\uff1aSignificant-Gravitas\u003cbr \u002f\u003e\u661f\u6807\uff1a184,621\u003cbr \u002f\u003eForks\uff1a46,208\u003cbr \u002f\u003eOpen Issues\uff1a425\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 02:46:23\u003cbr \u002f\u003e\u7b80\u4ecb\uff1aAutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the tools, so that you can focus on what matters.","\u4f5c\u8005\uff1aNousResearch\u003cbr \u002f\u003e\u661f\u6807\uff1a171,713\u003cbr \u002f\u003eForks\uff1a28,817\u003cbr \u002f\u003eOpen Issues\uff1a14,795\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 02:53:06\u003cbr \u002f\u003e\u7b80\u4ecb\uff1aThe agent that grows with you","\u4f5c\u8005\uff1ayt-dlp\u003cbr \u002f\u003e\u661f\u6807\uff1a166,370\u003cbr \u002f\u003eForks\uff1a13,989\u003cbr \u002f\u003eOpen Issues\uff1a2,537\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 02:49:58\u003cbr \u002f\u003e\u7b80\u4ecb\uff1aA feature-rich command-line audio\u002fvideo downloader","\u4f5c\u8005\uff1ahuggingface\u003cbr \u002f\u003e\u661f\u6807\uff1a161,030\u003cbr \u002f\u003eForks\uff1a33,343\u003cbr \u002f\u003eOpen Issues\uff1a2,385\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 02:28:14\u003cbr \u002f\u003e\u7b80\u4ecb\uff1a\ud83e\udd17 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training. ","\u4f5c\u8005\uff1a521xueweihan\u003cbr \u002f\u003e\u661f\u6807\uff1a159,149\u003cbr \u002f\u003eForks\uff1a12,066\u003cbr \u002f\u003eOpen Issues\uff1a403\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 02:47:21\u003cbr \u002f\u003e\u7b80\u4ecb\uff1a:octocat: \u5206\u4eab GitHub \u4e0a\u6709\u8da3\u3001\u5165\u95e8\u7ea7\u7684\u5f00\u6e90\u9879\u76ee\u3002Share interesting, entry-level open source projects on GitHub.","\u4f5c\u8005\uff1alangflow-ai\u003cbr \u002f\u003e\u661f\u6807\uff1a148,856\u003cbr \u002f\u003eForks\uff1a9,137\u003cbr \u002f\u003eOpen Issues\uff1a936\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 01:40:39\u003cbr \u002f\u003e\u7b80\u4ecb\uff1aLangflow is a powerful tool for building and deploying AI-powered agents and workflows."],"legendgroup":"","marker":{"color":{"dtype":"i4","bdata":"rK0GAPfvBQBClAQAEmEDAC3RAgDBngIA4okCAAZ1AgCtbQIAeEUCAA=="},"coloraxis":"coloraxis","pattern":{"shape":""},"line":{"color":"#174568","width":1.2}},"name":"","orientation":"v","showlegend":false,"text":{"dtype":"f8","bdata":"AAAAALC2GkEAAAAA3L8XQQAAAAAIURJBAAAAAJAIC0EAAAAAaIkGQQAAAAAI9gRBAAAAABBPBEEAAAAAMKgDQQAAAABobQNBAAAAAMArAkE="},"textposition":"outside","x":["\u003ca href='https:\u002f\u002fgithub.com\u002fpublic-apis\u002fpublic-apis' target='_blank'\u003epublic-apis\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fEbookFoundation\u002ffree-programming-books' target='_blank'\u003efree-programming-books\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fvinta\u002fawesome-python' target='_blank'\u003eawesome-python\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fTheAlgorithms\u002fPython' target='_blank'\u003ePython\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fSignificant-Gravitas\u002fAutoGPT' target='_blank'\u003eAutoGPT\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fNousResearch\u002fhermes-agent' target='_blank'\u003ehermes-agent\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fyt-dlp\u002fyt-dlp' target='_blank'\u003eyt-dlp\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fhuggingface\u002ftransformers' target='_blank'\u003etransformers\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002f521xueweihan\u002fHelloGitHub' target='_blank'\u003eHelloGitHub\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002flangflow-ai\u002flangflow' target='_blank'\u003elangflow\u003c\u002fa\u003e"],"xaxis":"x","y":{"dtype":"i4","bdata":"rK0GAPfvBQBClAQAEmEDAC3RAgDBngIA4okCAAZ1AgCtbQIAeEUCAA=="},"yaxis":"y","type":"bar","opacity":0.9,"texttemplate":"%{text:,}"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"\u4ed3\u5e93\uff08\u53ef\u70b9\u51fb\uff09","font":{"size":18}},"tickangle":-28},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Star \u6570","font":{"size":18}},"showgrid":true,"gridcolor":"#d7e6f3"},"coloraxis":{"colorbar":{"title":{"text":"color"}},"colorscale":[[0.0,"#1f4e79"],[0.25,"#2e75b6"],[0.5,"#4f9ad7"],[0.75,"#7eb8e6"],[1.0,"#bfdcf4"]],"showscale":false},"legend":{"tracegroupgap":0},"title":{"text":"GitHub \u70ed\u95e8 Python \u4ed3\u5e93 Top 10\uff08\u6309 Stars\uff09","font":{"size":28,"family":"Microsoft YaHei"}},"barmode":"relative","font":{"family":"Microsoft YaHei, SimHei, sans-serif","size":14,"color":"#123c5a"},"margin":{"l":80,"r":50,"t":90,"b":140},"paper_bgcolor":"#ffffff","plot_bgcolor":"#f7fbff"},                        {"displaylogo": false, "responsive": true}                    )                };            </script>        </div>
+        </section>
+
+        <section id="repo-list" class="row g-3">
+            
+        <div class="col-12 repo-item" data-stars="437676" data-forks="47980"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#1</span> <a href="https://github.com/public-apis/public-apis" target="_blank" rel="noopener noreferrer">public-apis</a></h3>
+                    <span class="badge rank-badge metric-badge">437,676 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：public-apis</p>
+                <p class="repo-desc mb-3">A collective list of free APIs</p>
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>47,980</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>1,373</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2016-03-20 23:49:42</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 02:51:09</strong></div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="389111" data-forks="66354"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#2</span> <a href="https://github.com/EbookFoundation/free-programming-books" target="_blank" rel="noopener noreferrer">free-programming-books</a></h3>
+                    <span class="badge rank-badge metric-badge">389,111 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：EbookFoundation</p>
+                <p class="repo-desc mb-3">:books: Freely available programming books</p>
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>66,354</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>82</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2013-10-11 06:50:37</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 02:52:14</strong></div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="300098" data-forks="27987"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#3</span> <a href="https://github.com/vinta/awesome-python" target="_blank" rel="noopener noreferrer">awesome-python</a></h3>
+                    <span class="badge rank-badge metric-badge">300,098 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：vinta</p>
+                <p class="repo-desc mb-3">An opinionated list of Python frameworks, libraries, tools, and resources</p>
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>27,987</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>23</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2014-06-27 21:00:06</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 02:29:13</strong></div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="221458" data-forks="50670"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#4</span> <a href="https://github.com/TheAlgorithms/Python" target="_blank" rel="noopener noreferrer">Python</a></h3>
+                    <span class="badge rank-badge metric-badge">221,458 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：TheAlgorithms</p>
+                <p class="repo-desc mb-3">All Algorithms implemented in Python</p>
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>50,670</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>925</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2016-07-16 09:44:01</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 02:46:10</strong></div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="184621" data-forks="46208"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#5</span> <a href="https://github.com/Significant-Gravitas/AutoGPT" target="_blank" rel="noopener noreferrer">AutoGPT</a></h3>
+                    <span class="badge rank-badge metric-badge">184,621 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：Significant-Gravitas</p>
+                <p class="repo-desc mb-3">AutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the tools, so that you can focus on what matters.</p>
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>46,208</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>425</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2023-03-16 09:21:07</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 02:46:23</strong></div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="171713" data-forks="28817"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#6</span> <a href="https://github.com/NousResearch/hermes-agent" target="_blank" rel="noopener noreferrer">hermes-agent</a></h3>
+                    <span class="badge rank-badge metric-badge">171,713 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：NousResearch</p>
+                <p class="repo-desc mb-3">The agent that grows with you</p>
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>28,817</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>14,795</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2025-07-22 22:22:28</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 02:53:06</strong></div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="166370" data-forks="13989"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#7</span> <a href="https://github.com/yt-dlp/yt-dlp" target="_blank" rel="noopener noreferrer">yt-dlp</a></h3>
+                    <span class="badge rank-badge metric-badge">166,370 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：yt-dlp</p>
+                <p class="repo-desc mb-3">A feature-rich command-line audio/video downloader</p>
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>13,989</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>2,537</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2020-10-26 04:22:55</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 02:49:58</strong></div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="161030" data-forks="33343"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#8</span> <a href="https://github.com/huggingface/transformers" target="_blank" rel="noopener noreferrer">transformers</a></h3>
+                    <span class="badge rank-badge metric-badge">161,030 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：huggingface</p>
+                <p class="repo-desc mb-3">🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training. </p>
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>33,343</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>2,385</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2018-10-29 13:56:00</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 02:28:14</strong></div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="159149" data-forks="12066"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#9</span> <a href="https://github.com/521xueweihan/HelloGitHub" target="_blank" rel="noopener noreferrer">HelloGitHub</a></h3>
+                    <span class="badge rank-badge metric-badge">159,149 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：521xueweihan</p>
+                <p class="repo-desc mb-3">:octocat: 分享 GitHub 上有趣、入门级的开源项目。Share interesting, entry-level open source projects on GitHub.</p>
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>12,066</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>403</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2016-05-04 06:24:11</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 02:47:21</strong></div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="148856" data-forks="9137"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#10</span> <a href="https://github.com/langflow-ai/langflow" target="_blank" rel="noopener noreferrer">langflow</a></h3>
+                    <span class="badge rank-badge metric-badge">148,856 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：langflow-ai</p>
+                <p class="repo-desc mb-3">Langflow is a powerful tool for building and deploying AI-powered agents and workflows.</p>
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>9,137</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>936</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2023-02-08 22:28:03</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 01:40:39</strong></div>
+                </div>
+            </article>
+        </div>
+        
+        </section>
+    </main>
+
+    <script id="chart-data" type="application/json">{"stars": {"x": ["<a href='https://github.com/public-apis/public-apis' target='_blank'>public-apis</a>", "<a href='https://github.com/EbookFoundation/free-programming-books' target='_blank'>free-programming-books</a>", "<a href='https://github.com/vinta/awesome-python' target='_blank'>awesome-python</a>", "<a href='https://github.com/TheAlgorithms/Python' target='_blank'>Python</a>", "<a href='https://github.com/Significant-Gravitas/AutoGPT' target='_blank'>AutoGPT</a>", "<a href='https://github.com/NousResearch/hermes-agent' target='_blank'>hermes-agent</a>", "<a href='https://github.com/yt-dlp/yt-dlp' target='_blank'>yt-dlp</a>", "<a href='https://github.com/huggingface/transformers' target='_blank'>transformers</a>", "<a href='https://github.com/521xueweihan/HelloGitHub' target='_blank'>HelloGitHub</a>", "<a href='https://github.com/langflow-ai/langflow' target='_blank'>langflow</a>"], "y": [437676, 389111, 300098, 221458, 184621, 171713, 166370, 161030, 159149, 148856], "hover": ["作者：public-apis<br />星标：437,676<br />Forks：47,980<br />Open Issues：1,373<br />最近更新时间：2026-05-29 02:51:09<br />简介：A collective list of free APIs", "作者：EbookFoundation<br />星标：389,111<br />Forks：66,354<br />Open Issues：82<br />最近更新时间：2026-05-29 02:52:14<br />简介：:books: Freely available programming books", "作者：vinta<br />星标：300,098<br />Forks：27,987<br />Open Issues：23<br />最近更新时间：2026-05-29 02:29:13<br />简介：An opinionated list of Python frameworks, libraries, tools, and resources", "作者：TheAlgorithms<br />星标：221,458<br />Forks：50,670<br />Open Issues：925<br />最近更新时间：2026-05-29 02:46:10<br />简介：All Algorithms implemented in Python", "作者：Significant-Gravitas<br />星标：184,621<br />Forks：46,208<br />Open Issues：425<br />最近更新时间：2026-05-29 02:46:23<br />简介：AutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the tools, so that you can focus on what matters.", "作者：NousResearch<br />星标：171,713<br />Forks：28,817<br />Open Issues：14,795<br />最近更新时间：2026-05-29 02:53:06<br />简介：The agent that grows with you", "作者：yt-dlp<br />星标：166,370<br />Forks：13,989<br />Open Issues：2,537<br />最近更新时间：2026-05-29 02:49:58<br />简介：A feature-rich command-line audio/video downloader", "作者：huggingface<br />星标：161,030<br />Forks：33,343<br />Open Issues：2,385<br />最近更新时间：2026-05-29 02:28:14<br />简介：🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training. ", "作者：521xueweihan<br />星标：159,149<br />Forks：12,066<br />Open Issues：403<br />最近更新时间：2026-05-29 02:47:21<br />简介：:octocat: 分享 GitHub 上有趣、入门级的开源项目。Share interesting, entry-level open source projects on GitHub.", "作者：langflow-ai<br />星标：148,856<br />Forks：9,137<br />Open Issues：936<br />最近更新时间：2026-05-29 01:40:39<br />简介：Langflow is a powerful tool for building and deploying AI-powered agents and workflows."]}, "forks": {"x": ["<a href='https://github.com/EbookFoundation/free-programming-books' target='_blank'>free-programming-books</a>", "<a href='https://github.com/TheAlgorithms/Python' target='_blank'>Python</a>", "<a href='https://github.com/public-apis/public-apis' target='_blank'>public-apis</a>", "<a href='https://github.com/Significant-Gravitas/AutoGPT' target='_blank'>AutoGPT</a>", "<a href='https://github.com/huggingface/transformers' target='_blank'>transformers</a>", "<a href='https://github.com/NousResearch/hermes-agent' target='_blank'>hermes-agent</a>", "<a href='https://github.com/vinta/awesome-python' target='_blank'>awesome-python</a>", "<a href='https://github.com/yt-dlp/yt-dlp' target='_blank'>yt-dlp</a>", "<a href='https://github.com/521xueweihan/HelloGitHub' target='_blank'>HelloGitHub</a>", "<a href='https://github.com/langflow-ai/langflow' target='_blank'>langflow</a>"], "y": [66354, 50670, 47980, 46208, 33343, 28817, 27987, 13989, 12066, 9137], "hover": ["作者：EbookFoundation<br />星标：389,111<br />Forks：66,354<br />Open Issues：82<br />最近更新时间：2026-05-29 02:52:14<br />简介：:books: Freely available programming books", "作者：TheAlgorithms<br />星标：221,458<br />Forks：50,670<br />Open Issues：925<br />最近更新时间：2026-05-29 02:46:10<br />简介：All Algorithms implemented in Python", "作者：public-apis<br />星标：437,676<br />Forks：47,980<br />Open Issues：1,373<br />最近更新时间：2026-05-29 02:51:09<br />简介：A collective list of free APIs", "作者：Significant-Gravitas<br />星标：184,621<br />Forks：46,208<br />Open Issues：425<br />最近更新时间：2026-05-29 02:46:23<br />简介：AutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the tools, so that you can focus on what matters.", "作者：huggingface<br />星标：161,030<br />Forks：33,343<br />Open Issues：2,385<br />最近更新时间：2026-05-29 02:28:14<br />简介：🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training. ", "作者：NousResearch<br />星标：171,713<br />Forks：28,817<br />Open Issues：14,795<br />最近更新时间：2026-05-29 02:53:06<br />简介：The agent that grows with you", "作者：vinta<br />星标：300,098<br />Forks：27,987<br />Open Issues：23<br />最近更新时间：2026-05-29 02:29:13<br />简介：An opinionated list of Python frameworks, libraries, tools, and resources", "作者：yt-dlp<br />星标：166,370<br />Forks：13,989<br />Open Issues：2,537<br />最近更新时间：2026-05-29 02:49:58<br />简介：A feature-rich command-line audio/video downloader", "作者：521xueweihan<br />星标：159,149<br />Forks：12,066<br />Open Issues：403<br />最近更新时间：2026-05-29 02:47:21<br />简介：:octocat: 分享 GitHub 上有趣、入门级的开源项目。Share interesting, entry-level open source projects on GitHub.", "作者：langflow-ai<br />星标：148,856<br />Forks：9,137<br />Open Issues：936<br />最近更新时间：2026-05-29 01:40:39<br />简介：Langflow is a powerful tool for building and deploying AI-powered agents and workflows."]}}</script>
+    <script>
+        const chartData = JSON.parse(document.getElementById("chart-data").textContent);
+        const starsBtn = document.getElementById("sort-stars");
+        const forksBtn = document.getElementById("sort-forks");
+        const repoList = document.getElementById("repo-list");
+
+        function updateButtons(mode) {
+            starsBtn.classList.toggle("active", mode === "stars");
+            forksBtn.classList.toggle("active", mode === "forks");
+        }
+
+        function updateCards(mode) {
+            const cards = Array.from(repoList.querySelectorAll(".repo-item"));
+            cards.sort((a, b) => Number(b.dataset[mode]) - Number(a.dataset[mode]));
+            cards.forEach((card, idx) => {
+                repoList.appendChild(card);
+                const rankNode = card.querySelector(".rank-num");
+                if (rankNode) {
+                    rankNode.textContent = `#${idx + 1}`;
+                }
+                const badge = card.querySelector(".metric-badge");
+                if (badge) {
+                    const value = Number(card.dataset[mode]).toLocaleString("zh-CN");
+                    badge.textContent = mode === "stars" ? `${value} Stars` : `${value} Forks`;
+                }
+            });
+        }
+
+        function updateChart(mode) {
+            const plot = document.querySelector(".js-plotly-plot");
+            if (!plot || !window.Plotly) {
+                return;
+            }
+            const data = chartData[mode];
+            window.Plotly.restyle(
+                plot,
+                {
+                    x: [data.x],
+                    y: [data.y],
+                    text: [data.y],
+                    hovertext: [data.hover],
+                    "marker.color": [data.y],
+                },
+                [0]
+            );
+            window.Plotly.relayout(plot, {
+                "yaxis.title.text": mode === "stars" ? "Star 数" : "Forks 数",
+                "title.text": mode === "stars" ? "GitHub 热门 Python 仓库 Top 10（按 Stars）" : "GitHub 热门 Python 仓库 Top 10（按 Forks）",
+            });
+        }
+
+        function applySort(mode) {
+            updateButtons(mode);
+            updateCards(mode);
+            updateChart(mode);
+        }
+
+        starsBtn.addEventListener("click", () => applySort("stars"));
+        forksBtn.addEventListener("click", () => applySort("forks"));
+    </script>
+</body>
+</html>

@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GitHub 热门 Python 仓库 Top 20</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --ink: #13293d;
+            --ink-soft: #254e70;
+            --bg: #f4f8fb;
+            --card: #ffffff;
+            --line: #d6e2ec;
+            --accent: #1b98e0;
+            --accent-2: #247ba0;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 10% 10%, #e9f3fb 0%, transparent 40%),
+                radial-gradient(circle at 90% 20%, #e3eef9 0%, transparent 32%),
+                linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+        }
+
+        .page-wrap {
+            max-width: 1180px;
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #0b2545 0%, #134074 52%, #1d5b8f 100%);
+            color: #fff;
+            border-radius: 22px;
+            box-shadow: 0 20px 44px rgba(12, 45, 77, 0.22);
+        }
+
+        .hero h1 {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .hero p {
+            color: rgba(255, 255, 255, 0.88);
+            margin-bottom: 0;
+        }
+
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            box-shadow: 0 10px 24px rgba(18, 62, 102, 0.09);
+        }
+
+        .repo-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(28, 76, 115, 0.08);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .repo-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(28, 76, 115, 0.14);
+        }
+
+        .repo-title {
+            font-size: 1.15rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .repo-title a {
+            color: var(--ink-soft);
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+        }
+
+        .repo-title a:hover {
+            color: var(--accent-2);
+            border-bottom-color: var(--accent-2);
+        }
+
+        .repo-desc {
+            color: #2c4b66;
+        }
+
+        .repo-desc-cn {
+            color: #1e4f74;
+        }
+
+        .rank-badge {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #fff;
+            font-weight: 600;
+            border-radius: 999px;
+            padding: 0.45rem 0.8rem;
+        }
+
+        .details-toggle {
+            border-radius: 999px;
+            border: 1px solid #9fc3de;
+            color: #12476b;
+            background: #f0f8ff;
+            font-weight: 600;
+            padding: 0.35rem 0.85rem;
+        }
+
+        .details-toggle:hover {
+            color: #0f3d5b;
+            border-color: #7eb0d1;
+            background: #e6f3ff;
+        }
+
+        .repo-details.is-collapsed {
+            display: none;
+        }
+
+        .repo-meta span {
+            display: block;
+            color: #5d7488;
+            font-size: 0.85rem;
+            margin-bottom: 2px;
+        }
+
+        .repo-meta strong {
+            font-size: 0.96rem;
+            color: #1e3f5a;
+        }
+
+        .sort-toolbar .btn-sort {
+            border-radius: 999px;
+            border: 1px solid #8fb7d8;
+            color: #0f3f61;
+            background: #f4fbff;
+            padding: 0.45rem 1rem;
+            font-weight: 600;
+        }
+
+        .sort-toolbar .btn-sort.active {
+            color: #fff;
+            border-color: transparent;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        }
+
+        @media (min-width: 768px) {
+            .details-toggle {
+                display: none;
+            }
+
+            #toggle-all-details {
+                display: none;
+            }
+
+            .repo-details.is-collapsed,
+            .repo-details {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container page-wrap py-4 py-md-5">
+        <section class="hero p-4 p-md-5 mb-4">
+            <h1 class="h2 mb-2">GitHub 热门 Python 仓库 Top 20</h1>
+            <p>专业交互图表 + 中英双语项目详情卡片。数据来源：GitHub Search API，生成时间：2026-05-29 11:48:08</p>
+            <div class="sort-toolbar mt-3 d-flex gap-2">
+                <button id="sort-stars" type="button" class="btn btn-sort active">按 Stars 排序</button>
+                <button id="sort-forks" type="button" class="btn btn-sort">按 Forks 排序</button>
+                <button id="toggle-all-details" type="button" class="btn btn-sort">全部展开</button>
+            </div>
+        </section>
+
+        <section class="panel p-2 p-md-3 mb-4">
+            <div>                        <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.5.0.min.js" integrity="sha256-fHbNLP+GlIXN+efbQec78UkemUz3NJp7UmfGxC1tNxs=" crossorigin="anonymous"></script>                <div id="bdaa9380-d966-42ca-ad09-0d860e620893" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("bdaa9380-d966-42ca-ad09-0d860e620893")) {                    Plotly.newPlot(                        "bdaa9380-d966-42ca-ad09-0d860e620893",                        [{"hovertemplate":"%{hovertext}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["\u4f5c\u8005\uff1apublic-apis\u003cbr \u002f\u003e\u661f\u6807\uff1a437,682\u003cbr \u002f\u003eForks\uff1a47,980\u003cbr \u002f\u003eWatchers\uff1a437,682\u003cbr \u002f\u003eOpen Issues\uff1a1,373\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aMIT\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aapi, apis, dataset, development, free, list, lists, open-source\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:27:20\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aA collective list of free APIs\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 public-apis \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 437,682 Stars\u300147,980 Forks\u3001437,682 Watchers\uff0c\u5f00\u653e\u95ee\u9898 1,373 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:27:20\u3002","\u4f5c\u8005\uff1aEbookFoundation\u003cbr \u002f\u003e\u661f\u6807\uff1a389,111\u003cbr \u002f\u003eForks\uff1a66,354\u003cbr \u002f\u003eWatchers\uff1a389,111\u003cbr \u002f\u003eOpen Issues\uff1a82\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aCC-BY-4.0\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1abooks, education, hacktoberfest, list, resource\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:37:37\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1a:books: Freely available programming books\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 EbookFoundation \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 389,111 Stars\u300166,354 Forks\u3001389,111 Watchers\uff0c\u5f00\u653e\u95ee\u9898 82 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:37:37\u3002","\u4f5c\u8005\uff1avinta\u003cbr \u002f\u003e\u661f\u6807\uff1a300,107\u003cbr \u002f\u003eForks\uff1a27,988\u003cbr \u002f\u003eWatchers\uff1a300,107\u003cbr \u002f\u003eOpen Issues\uff1a23\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aOther\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aawesome, collections, python, python-frameworks, python-libraries, python-tools\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:47:34\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aAn opinionated list of Python frameworks, libraries, tools, and resources\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 vinta \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 300,107 Stars\u300127,988 Forks\u3001300,107 Watchers\uff0c\u5f00\u653e\u95ee\u9898 23 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:47:34\u3002","\u4f5c\u8005\uff1aTheAlgorithms\u003cbr \u002f\u003e\u661f\u6807\uff1a221,459\u003cbr \u002f\u003eForks\uff1a50,670\u003cbr \u002f\u003eWatchers\uff1a221,459\u003cbr \u002f\u003eOpen Issues\uff1a925\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aMIT\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aalgorithm, algorithm-competitions, algorithms-implemented, algos, community-driven, education, hacktoberfest, interview\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:42:26\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aAll Algorithms implemented in Python\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 TheAlgorithms \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 221,459 Stars\u300150,670 Forks\u3001221,459 Watchers\uff0c\u5f00\u653e\u95ee\u9898 925 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:42:26\u3002","\u4f5c\u8005\uff1aSignificant-Gravitas\u003cbr \u002f\u003e\u661f\u6807\uff1a184,624\u003cbr \u002f\u003eForks\uff1a46,208\u003cbr \u002f\u003eWatchers\uff1a184,624\u003cbr \u002f\u003eOpen Issues\uff1a426\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aOther\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aagentic-ai, agents, ai, artificial-intelligence, autonomous-agents, claude, gpt, llama-api\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:44:01\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aAutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the tools, so that you can focus on what matters.\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 Significant-Gravitas \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 184,624 Stars\u300146,208 Forks\u3001184,624 Watchers\uff0c\u5f00\u653e\u95ee\u9898 426 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:44:01\u3002","\u4f5c\u8005\uff1aNousResearch\u003cbr \u002f\u003e\u661f\u6807\uff1a171,784\u003cbr \u002f\u003eForks\uff1a28,833\u003cbr \u002f\u003eWatchers\uff1a171,784\u003cbr \u002f\u003eOpen Issues\uff1a14,809\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aMIT\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aai, ai-agent, ai-agents, anthropic, chatgpt, claude, claude-code, clawdbot\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:47:45\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aThe agent that grows with you\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 NousResearch \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 171,784 Stars\u300128,833 Forks\u3001171,784 Watchers\uff0c\u5f00\u653e\u95ee\u9898 14,809 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:47:45\u3002","\u4f5c\u8005\uff1ayt-dlp\u003cbr \u002f\u003e\u661f\u6807\uff1a166,383\u003cbr \u002f\u003eForks\uff1a13,990\u003cbr \u002f\u003eWatchers\uff1a166,383\u003cbr \u002f\u003eOpen Issues\uff1a2,537\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aUnlicense\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1acli, downloader, python, sponsorblock, youtube-dl, youtube-downloader, yt-dlp\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:43:24\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aA feature-rich command-line audio\u002fvideo downloader\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 yt-dlp \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 166,383 Stars\u300113,990 Forks\u3001166,383 Watchers\uff0c\u5f00\u653e\u95ee\u9898 2,537 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:43:24\u3002","\u4f5c\u8005\uff1ahuggingface\u003cbr \u002f\u003e\u661f\u6807\uff1a161,032\u003cbr \u002f\u003eForks\uff1a33,344\u003cbr \u002f\u003eWatchers\uff1a161,032\u003cbr \u002f\u003eOpen Issues\uff1a2,385\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aApache-2.0\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aaudio, deep-learning, deepseek, gemma, glm, hacktoberfest, llm, machine-learning\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:13:26\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1a\ud83e\udd17 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training. \u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 huggingface \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 161,032 Stars\u300133,344 Forks\u3001161,032 Watchers\uff0c\u5f00\u653e\u95ee\u9898 2,385 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:13:26\u3002","\u4f5c\u8005\uff1a521xueweihan\u003cbr \u002f\u003e\u661f\u6807\uff1a159,154\u003cbr \u002f\u003eForks\uff1a12,068\u003cbr \u002f\u003eWatchers\uff1a159,154\u003cbr \u002f\u003eOpen Issues\uff1a403\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1a\u672a\u58f0\u660e \u002f Not specified\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aawesome, github, hellogithub, python\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:36:28\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1a:octocat: \u5206\u4eab GitHub \u4e0a\u6709\u8da3\u3001\u5165\u95e8\u7ea7\u7684\u5f00\u6e90\u9879\u76ee\u3002Share interesting, entry-level open source projects on GitHub.\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 521xueweihan \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 159,154 Stars\u300112,068 Forks\u3001159,154 Watchers\uff0c\u5f00\u653e\u95ee\u9898 403 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:36:28\u3002","\u4f5c\u8005\uff1alangflow-ai\u003cbr \u002f\u003e\u661f\u6807\uff1a148,856\u003cbr \u002f\u003eForks\uff1a9,137\u003cbr \u002f\u003eWatchers\uff1a148,856\u003cbr \u002f\u003eOpen Issues\uff1a935\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aMIT\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aagents, chatgpt, generative-ai, large-language-models, multiagent, react-flow\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:46:51\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aLangflow is a powerful tool for building and deploying AI-powered agents and workflows.\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 langflow-ai \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 148,856 Stars\u30019,137 Forks\u3001148,856 Watchers\uff0c\u5f00\u653e\u95ee\u9898 935 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:46:51\u3002","\u4f5c\u8005\uff1aanthropics\u003cbr \u002f\u003e\u661f\u6807\uff1a142,999\u003cbr \u002f\u003eForks\uff1a16,887\u003cbr \u002f\u003eWatchers\uff1a142,999\u003cbr \u002f\u003eOpen Issues\uff1a888\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1a\u672a\u58f0\u660e \u002f Not specified\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aagent-skills\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:47:45\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aPublic repository for Agent Skills\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 anthropics \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 142,999 Stars\u300116,887 Forks\u3001142,999 Watchers\uff0c\u5f00\u653e\u95ee\u9898 888 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:47:45\u3002","\u4f5c\u8005\uff1aopen-webui\u003cbr \u002f\u003e\u661f\u6807\uff1a139,100\u003cbr \u002f\u003eForks\uff1a19,935\u003cbr \u002f\u003eWatchers\uff1a139,100\u003cbr \u002f\u003eOpen Issues\uff1a321\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aOther\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aai, llm, llm-ui, llm-webui, llms, mcp, ollama, ollama-webui\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:46:53\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aUser-friendly AI Interface (Supports Ollama, OpenAI API, ...)\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 open-webui \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 139,100 Stars\u300119,935 Forks\u3001139,100 Watchers\uff0c\u5f00\u653e\u95ee\u9898 321 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:46:53\u3002","\u4f5c\u8005\uff1alangchain-ai\u003cbr \u002f\u003e\u661f\u6807\uff1a137,909\u003cbr \u002f\u003eForks\uff1a22,834\u003cbr \u002f\u003eWatchers\uff1a137,909\u003cbr \u002f\u003eOpen Issues\uff1a595\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aMIT\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aagents, ai, ai-agents, anthropic, chatgpt, deepagents, enterprise, framework\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:21:30\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aThe agent engineering platform.\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 langchain-ai \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 137,909 Stars\u300122,834 Forks\u3001137,909 Watchers\uff0c\u5f00\u653e\u95ee\u9898 595 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:21:30\u3002","\u4f5c\u8005\uff1amicrosoft\u003cbr \u002f\u003e\u661f\u6807\uff1a127,940\u003cbr \u002f\u003eForks\uff1a8,757\u003cbr \u002f\u003eWatchers\uff1a127,940\u003cbr \u002f\u003eOpen Issues\uff1a671\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aMIT\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aautogen, autogen-extension, langchain, markdown, microsoft-office, openai, pdf\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:47:34\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aPython tool for converting files and office documents to Markdown.\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 microsoft \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 127,940 Stars\u30018,757 Forks\u3001127,940 Watchers\uff0c\u5f00\u653e\u95ee\u9898 671 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:47:34\u3002","\u4f5c\u8005\uff1aanthropics\u003cbr \u002f\u003e\u661f\u6807\uff1a127,418\u003cbr \u002f\u003eForks\uff1a20,876\u003cbr \u002f\u003eWatchers\uff1a127,418\u003cbr \u002f\u003eOpen Issues\uff1a9,140\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1a\u672a\u58f0\u660e \u002f Not specified\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1a\u65e0 \u002f None\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:47:30\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aClaude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows - all through natural language commands.\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 anthropics \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 127,418 Stars\u300120,876 Forks\u3001127,418 Watchers\uff0c\u5f00\u653e\u95ee\u9898 9,140 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:47:30\u3002","\u4f5c\u8005\uff1aComfy-Org\u003cbr \u002f\u003e\u661f\u6807\uff1a114,817\u003cbr \u002f\u003eForks\uff1a13,413\u003cbr \u002f\u003eWatchers\uff1a114,817\u003cbr \u002f\u003eOpen Issues\uff1a4,036\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aGPL-3.0\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aai, comfy, comfyui, python, pytorch, stable-diffusion\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:44:01\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aThe most powerful and modular diffusion model GUI, api and backend with a graph\u002fnodes interface.\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 Comfy-Org \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 114,817 Stars\u300113,413 Forks\u3001114,817 Watchers\uff0c\u5f00\u653e\u95ee\u9898 4,036 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:44:01\u3002","\u4f5c\u8005\uff1aShubhamsaboo\u003cbr \u002f\u003e\u661f\u6807\uff1a112,059\u003cbr \u002f\u003eForks\uff1a16,633\u003cbr \u002f\u003eWatchers\uff1a112,059\u003cbr \u002f\u003eOpen Issues\uff1a12\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aApache-2.0\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aagents, llms, python, rag\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:42:58\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1a100+ AI Agent & RAG apps you can actually run \u2014 clone, customize, ship.\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 Shubhamsaboo \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 112,059 Stars\u300116,633 Forks\u3001112,059 Watchers\uff0c\u5f00\u653e\u95ee\u9898 12 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:42:58\u3002","\u4f5c\u8005\uff1agithub\u003cbr \u002f\u003e\u661f\u6807\uff1a106,856\u003cbr \u002f\u003eForks\uff1a9,460\u003cbr \u002f\u003eWatchers\uff1a106,856\u003cbr \u002f\u003eOpen Issues\uff1a431\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aMIT\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aai, copilot, development, engineering, prd, spec, spec-driven\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:35:47\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1a\ud83d\udcab Toolkit to help you get started with Spec-Driven Development\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 github \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 106,856 Stars\u30019,460 Forks\u3001106,856 Watchers\uff0c\u5f00\u653e\u95ee\u9898 431 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:35:47\u3002","\u4f5c\u8005\uff1apytorch\u003cbr \u002f\u003e\u661f\u6807\uff1a100,242\u003cbr \u002f\u003eForks\uff1a27,877\u003cbr \u002f\u003eWatchers\uff1a100,242\u003cbr \u002f\u003eOpen Issues\uff1a18,355\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aOther\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aautograd, deep-learning, gpu, machine-learning, neural-network, numpy, python, tensor\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 03:42:16\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aTensors and Dynamic neural networks in Python with strong GPU acceleration\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 pytorch \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 100,242 Stars\u300127,877 Forks\u3001100,242 Watchers\uff0c\u5f00\u653e\u95ee\u9898 18,355 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 03:42:16\u3002","\u4f5c\u8005\uff1afastapi\u003cbr \u002f\u003e\u661f\u6807\uff1a98,622\u003cbr \u002f\u003eForks\uff1a9,348\u003cbr \u002f\u003eWatchers\uff1a98,622\u003cbr \u002f\u003eOpen Issues\uff1a90\u003cbr \u002f\u003e\u4e3b\u8bed\u8a00 \u002f Language\uff1aPython\u003cbr \u002f\u003e\u8bb8\u53ef\u8bc1 \u002f License\uff1aMIT\u003cbr \u002f\u003e\u4e3b\u9898 \u002f Topics\uff1aapi, async, asyncio, fastapi, framework, json, json-schema, openapi\u003cbr \u002f\u003e\u6700\u8fd1\u66f4\u65b0\u65f6\u95f4\uff1a2026-05-29 02:54:45\u003cbr \u002f\u003e\u7b80\u4ecb EN\uff1aFastAPI framework, high performance, easy to learn, fast to code, ready for production\u003cbr \u002f\u003e\u6982\u89c8 CN\uff1a\u8fd9\u662f\u4e00\u4e2a\u7531 fastapi \u7ef4\u62a4\u7684\u5f00\u6e90 Python \u9879\u76ee\uff0c\u5f53\u524d\u7ea6 98,622 Stars\u30019,348 Forks\u300198,622 Watchers\uff0c\u5f00\u653e\u95ee\u9898 90 \u4e2a\uff0c\u6700\u8fd1\u66f4\u65b0\u4e8e 2026-05-29 02:54:45\u3002"],"legendgroup":"","marker":{"color":{"dtype":"i4","bdata":"sq0GAPfvBQBLlAQAE2EDADDRAgAInwIA74kCAAh1AgCybQIAeEUCAJcuAgBcHwIAtRoCAMTzAQC68QEAgcABALu1AQBooQEAkocBAD6BAQA="},"coloraxis":"coloraxis","pattern":{"shape":""},"line":{"color":"#174568","width":1.2}},"name":"","orientation":"v","showlegend":false,"text":{"dtype":"f8","bdata":"AAAAAMi2GkEAAAAA3L8XQQAAAAAsURJBAAAAAJgIC0EAAAAAgIkGQQAAAABA+ARBAAAAAHhPBEEAAAAAQKgDQQAAAACQbQNBAAAAAMArAkEAAAAAuHQBQQAAAADg+gBBAAAAAKjVAEEAAAAAQDz\u002fQAAAAACgG\u002f9AAAAAABAI\u002fEAAAAAAsFv7QAAAAACAFvpAAAAAACB5+EAAAAAA4BP4QA=="},"textposition":"outside","x":["\u003ca href='https:\u002f\u002fgithub.com\u002fpublic-apis\u002fpublic-apis' target='_blank'\u003epublic-apis\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fEbookFoundation\u002ffree-programming-books' target='_blank'\u003efree-programming-books\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fvinta\u002fawesome-python' target='_blank'\u003eawesome-python\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fTheAlgorithms\u002fPython' target='_blank'\u003ePython\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fSignificant-Gravitas\u002fAutoGPT' target='_blank'\u003eAutoGPT\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fNousResearch\u002fhermes-agent' target='_blank'\u003ehermes-agent\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fyt-dlp\u002fyt-dlp' target='_blank'\u003eyt-dlp\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fhuggingface\u002ftransformers' target='_blank'\u003etransformers\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002f521xueweihan\u002fHelloGitHub' target='_blank'\u003eHelloGitHub\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002flangflow-ai\u002flangflow' target='_blank'\u003elangflow\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fanthropics\u002fskills' target='_blank'\u003eskills\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fopen-webui\u002fopen-webui' target='_blank'\u003eopen-webui\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002flangchain-ai\u002flangchain' target='_blank'\u003elangchain\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fmicrosoft\u002fmarkitdown' target='_blank'\u003emarkitdown\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fanthropics\u002fclaude-code' target='_blank'\u003eclaude-code\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fComfy-Org\u002fComfyUI' target='_blank'\u003eComfyUI\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fShubhamsaboo\u002fawesome-llm-apps' target='_blank'\u003eawesome-llm-apps\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fgithub\u002fspec-kit' target='_blank'\u003espec-kit\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002fpytorch\u002fpytorch' target='_blank'\u003epytorch\u003c\u002fa\u003e","\u003ca href='https:\u002f\u002fgithub.com\u002ffastapi\u002ffastapi' target='_blank'\u003efastapi\u003c\u002fa\u003e"],"xaxis":"x","y":{"dtype":"i4","bdata":"sq0GAPfvBQBLlAQAE2EDADDRAgAInwIA74kCAAh1AgCybQIAeEUCAJcuAgBcHwIAtRoCAMTzAQC68QEAgcABALu1AQBooQEAkocBAD6BAQA="},"yaxis":"y","type":"bar","opacity":0.9,"texttemplate":"%{text:,}"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"\u4ed3\u5e93\uff08\u53ef\u70b9\u51fb\uff09","font":{"size":18}},"tickangle":-28},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Star \u6570","font":{"size":18}},"showgrid":true,"gridcolor":"#d7e6f3"},"coloraxis":{"colorbar":{"title":{"text":"color"}},"colorscale":[[0.0,"#1f4e79"],[0.25,"#2e75b6"],[0.5,"#4f9ad7"],[0.75,"#7eb8e6"],[1.0,"#bfdcf4"]],"showscale":false},"legend":{"tracegroupgap":0},"title":{"text":"GitHub \u70ed\u95e8 Python \u4ed3\u5e93 Top 20\uff08\u6309 Stars\uff09","font":{"size":28,"family":"Microsoft YaHei"}},"barmode":"relative","font":{"family":"Microsoft YaHei, SimHei, sans-serif","size":14,"color":"#123c5a"},"margin":{"l":80,"r":50,"t":90,"b":140},"paper_bgcolor":"#ffffff","plot_bgcolor":"#f7fbff"},                        {"displaylogo": false, "responsive": true}                    )                };            </script>        </div>
+        </section>
+
+        <section id="repo-list" class="row g-3">
+            
+        <div class="col-12 repo-item" data-stars="437682" data-forks="47980"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#1</span> <a href="https://github.com/public-apis/public-apis" target="_blank" rel="noopener noreferrer">public-apis</a></h3>
+                    <span class="badge rank-badge metric-badge">437,682 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：public-apis</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> A collective list of free APIs</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 public-apis 维护的开源 Python 项目，当前约 437,682 Stars、47,980 Forks、437,682 Watchers，开放问题 1,373 个，最近更新于 2026-05-29 03:27:20。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>47,980</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>1,373</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>437,682</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>MIT</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>master</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2016-03-20 23:49:42</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:27:20</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>api, apis, dataset, development, free, list, lists, open-source</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://APILayer.com/?utm_source=Github&amp;utm_medium=Referral&amp;utm_campaign=Public-apis-repo</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="389111" data-forks="66354"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#2</span> <a href="https://github.com/EbookFoundation/free-programming-books" target="_blank" rel="noopener noreferrer">free-programming-books</a></h3>
+                    <span class="badge rank-badge metric-badge">389,111 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：EbookFoundation</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> :books: Freely available programming books</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 EbookFoundation 维护的开源 Python 项目，当前约 389,111 Stars、66,354 Forks、389,111 Watchers，开放问题 82 个，最近更新于 2026-05-29 03:37:37。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>66,354</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>82</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>389,111</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>CC-BY-4.0</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>main</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2013-10-11 06:50:37</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:37:37</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>books, education, hacktoberfest, list, resource</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://ebookfoundation.github.io/free-programming-books/</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="300107" data-forks="27988"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#3</span> <a href="https://github.com/vinta/awesome-python" target="_blank" rel="noopener noreferrer">awesome-python</a></h3>
+                    <span class="badge rank-badge metric-badge">300,107 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：vinta</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> An opinionated list of Python frameworks, libraries, tools, and resources</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 vinta 维护的开源 Python 项目，当前约 300,107 Stars、27,988 Forks、300,107 Watchers，开放问题 23 个，最近更新于 2026-05-29 03:47:34。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>27,988</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>23</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>300,107</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>Other</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>master</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2014-06-27 21:00:06</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:47:34</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>awesome, collections, python, python-frameworks, python-libraries, python-tools</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://awesome-python.com/</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="221459" data-forks="50670"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#4</span> <a href="https://github.com/TheAlgorithms/Python" target="_blank" rel="noopener noreferrer">Python</a></h3>
+                    <span class="badge rank-badge metric-badge">221,459 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：TheAlgorithms</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> All Algorithms implemented in Python</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 TheAlgorithms 维护的开源 Python 项目，当前约 221,459 Stars、50,670 Forks、221,459 Watchers，开放问题 925 个，最近更新于 2026-05-29 03:42:26。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>50,670</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>925</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>221,459</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>MIT</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>master</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2016-07-16 09:44:01</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:42:26</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>algorithm, algorithm-competitions, algorithms-implemented, algos, community-driven, education, hacktoberfest, interview</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://thealgorithms.github.io/Python/</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="184624" data-forks="46208"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#5</span> <a href="https://github.com/Significant-Gravitas/AutoGPT" target="_blank" rel="noopener noreferrer">AutoGPT</a></h3>
+                    <span class="badge rank-badge metric-badge">184,624 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：Significant-Gravitas</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> AutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the tools, so that you can focus on what matters.</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 Significant-Gravitas 维护的开源 Python 项目，当前约 184,624 Stars、46,208 Forks、184,624 Watchers，开放问题 426 个，最近更新于 2026-05-29 03:44:01。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>46,208</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>426</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>184,624</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>Other</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>master</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2023-03-16 09:21:07</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:44:01</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>agentic-ai, agents, ai, artificial-intelligence, autonomous-agents, claude, gpt, llama-api</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://agpt.co</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="171784" data-forks="28833"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#6</span> <a href="https://github.com/NousResearch/hermes-agent" target="_blank" rel="noopener noreferrer">hermes-agent</a></h3>
+                    <span class="badge rank-badge metric-badge">171,784 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：NousResearch</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> The agent that grows with you</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 NousResearch 维护的开源 Python 项目，当前约 171,784 Stars、28,833 Forks、171,784 Watchers，开放问题 14,809 个，最近更新于 2026-05-29 03:47:45。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>28,833</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>14,809</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>171,784</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>MIT</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>main</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2025-07-22 22:22:28</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:47:45</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>ai, ai-agent, ai-agents, anthropic, chatgpt, claude, claude-code, clawdbot</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://hermes-agent.nousresearch.com</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="166383" data-forks="13990"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#7</span> <a href="https://github.com/yt-dlp/yt-dlp" target="_blank" rel="noopener noreferrer">yt-dlp</a></h3>
+                    <span class="badge rank-badge metric-badge">166,383 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：yt-dlp</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> A feature-rich command-line audio/video downloader</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 yt-dlp 维护的开源 Python 项目，当前约 166,383 Stars、13,990 Forks、166,383 Watchers，开放问题 2,537 个，最近更新于 2026-05-29 03:43:24。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>13,990</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>2,537</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>166,383</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>Unlicense</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>master</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2020-10-26 04:22:55</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:43:24</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>cli, downloader, python, sponsorblock, youtube-dl, youtube-downloader, yt-dlp</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://discord.gg/H5MNcFW63r</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="161032" data-forks="33344"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#8</span> <a href="https://github.com/huggingface/transformers" target="_blank" rel="noopener noreferrer">transformers</a></h3>
+                    <span class="badge rank-badge metric-badge">161,032 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：huggingface</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> 🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training. </p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 huggingface 维护的开源 Python 项目，当前约 161,032 Stars、33,344 Forks、161,032 Watchers，开放问题 2,385 个，最近更新于 2026-05-29 03:13:26。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>33,344</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>2,385</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>161,032</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>Apache-2.0</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>main</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2018-10-29 13:56:00</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:13:26</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>audio, deep-learning, deepseek, gemma, glm, hacktoberfest, llm, machine-learning</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://huggingface.co/transformers</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="159154" data-forks="12068"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#9</span> <a href="https://github.com/521xueweihan/HelloGitHub" target="_blank" rel="noopener noreferrer">HelloGitHub</a></h3>
+                    <span class="badge rank-badge metric-badge">159,154 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：521xueweihan</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> :octocat: 分享 GitHub 上有趣、入门级的开源项目。Share interesting, entry-level open source projects on GitHub.</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 521xueweihan 维护的开源 Python 项目，当前约 159,154 Stars、12,068 Forks、159,154 Watchers，开放问题 403 个，最近更新于 2026-05-29 03:36:28。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>12,068</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>403</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>159,154</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>未声明 / Not specified</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>master</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2016-05-04 06:24:11</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:36:28</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>awesome, github, hellogithub, python</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://hellogithub.com</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="148856" data-forks="9137"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#10</span> <a href="https://github.com/langflow-ai/langflow" target="_blank" rel="noopener noreferrer">langflow</a></h3>
+                    <span class="badge rank-badge metric-badge">148,856 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：langflow-ai</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> Langflow is a powerful tool for building and deploying AI-powered agents and workflows.</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 langflow-ai 维护的开源 Python 项目，当前约 148,856 Stars、9,137 Forks、148,856 Watchers，开放问题 935 个，最近更新于 2026-05-29 03:46:51。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>9,137</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>935</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>148,856</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>MIT</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>main</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2023-02-08 22:28:03</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:46:51</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>agents, chatgpt, generative-ai, large-language-models, multiagent, react-flow</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>http://www.langflow.org</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="142999" data-forks="16887"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#11</span> <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener noreferrer">skills</a></h3>
+                    <span class="badge rank-badge metric-badge">142,999 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：anthropics</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> Public repository for Agent Skills</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 anthropics 维护的开源 Python 项目，当前约 142,999 Stars、16,887 Forks、142,999 Watchers，开放问题 888 个，最近更新于 2026-05-29 03:47:45。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>16,887</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>888</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>142,999</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>未声明 / Not specified</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>main</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2025-09-22 15:53:31</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:47:45</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>agent-skills</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>未设置 / Not set</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="139100" data-forks="19935"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#12</span> <a href="https://github.com/open-webui/open-webui" target="_blank" rel="noopener noreferrer">open-webui</a></h3>
+                    <span class="badge rank-badge metric-badge">139,100 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：open-webui</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> User-friendly AI Interface (Supports Ollama, OpenAI API, ...)</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 open-webui 维护的开源 Python 项目，当前约 139,100 Stars、19,935 Forks、139,100 Watchers，开放问题 321 个，最近更新于 2026-05-29 03:46:53。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>19,935</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>321</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>139,100</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>Other</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>main</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2023-10-06 22:08:27</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:46:53</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>ai, llm, llm-ui, llm-webui, llms, mcp, ollama, ollama-webui</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://openwebui.com</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="137909" data-forks="22834"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#13</span> <a href="https://github.com/langchain-ai/langchain" target="_blank" rel="noopener noreferrer">langchain</a></h3>
+                    <span class="badge rank-badge metric-badge">137,909 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：langchain-ai</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> The agent engineering platform.</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 langchain-ai 维护的开源 Python 项目，当前约 137,909 Stars、22,834 Forks、137,909 Watchers，开放问题 595 个，最近更新于 2026-05-29 03:21:30。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>22,834</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>595</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>137,909</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>MIT</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>master</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2022-10-17 02:58:36</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:21:30</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>agents, ai, ai-agents, anthropic, chatgpt, deepagents, enterprise, framework</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://docs.langchain.com/langchain/</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="127940" data-forks="8757"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#14</span> <a href="https://github.com/microsoft/markitdown" target="_blank" rel="noopener noreferrer">markitdown</a></h3>
+                    <span class="badge rank-badge metric-badge">127,940 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：microsoft</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> Python tool for converting files and office documents to Markdown.</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 microsoft 维护的开源 Python 项目，当前约 127,940 Stars、8,757 Forks、127,940 Watchers，开放问题 671 个，最近更新于 2026-05-29 03:47:34。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>8,757</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>671</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>127,940</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>MIT</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>main</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2024-11-13 19:56:40</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:47:34</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>autogen, autogen-extension, langchain, markdown, microsoft-office, openai, pdf</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>未设置 / Not set</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="127418" data-forks="20876"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#15</span> <a href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener noreferrer">claude-code</a></h3>
+                    <span class="badge rank-badge metric-badge">127,418 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：anthropics</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows - all through natural language commands.</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 anthropics 维护的开源 Python 项目，当前约 127,418 Stars、20,876 Forks、127,418 Watchers，开放问题 9,140 个，最近更新于 2026-05-29 03:47:30。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>20,876</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>9,140</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>127,418</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>未声明 / Not specified</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>main</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2025-02-22 17:41:21</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:47:30</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>无 / None</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://code.claude.com/docs/en/overview</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="114817" data-forks="13413"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#16</span> <a href="https://github.com/Comfy-Org/ComfyUI" target="_blank" rel="noopener noreferrer">ComfyUI</a></h3>
+                    <span class="badge rank-badge metric-badge">114,817 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：Comfy-Org</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface.</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 Comfy-Org 维护的开源 Python 项目，当前约 114,817 Stars、13,413 Forks、114,817 Watchers，开放问题 4,036 个，最近更新于 2026-05-29 03:44:01。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>13,413</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>4,036</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>114,817</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>GPL-3.0</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>master</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2023-01-17 03:15:56</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:44:01</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>ai, comfy, comfyui, python, pytorch, stable-diffusion</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://www.comfy.org/</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="112059" data-forks="16633"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#17</span> <a href="https://github.com/Shubhamsaboo/awesome-llm-apps" target="_blank" rel="noopener noreferrer">awesome-llm-apps</a></h3>
+                    <span class="badge rank-badge metric-badge">112,059 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：Shubhamsaboo</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> 100+ AI Agent &amp; RAG apps you can actually run — clone, customize, ship.</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 Shubhamsaboo 维护的开源 Python 项目，当前约 112,059 Stars、16,633 Forks、112,059 Watchers，开放问题 12 个，最近更新于 2026-05-29 03:42:58。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>16,633</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>12</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>112,059</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>Apache-2.0</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>main</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2024-04-29 05:30:25</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:42:58</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>agents, llms, python, rag</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://www.theunwindai.com</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="106856" data-forks="9460"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#18</span> <a href="https://github.com/github/spec-kit" target="_blank" rel="noopener noreferrer">spec-kit</a></h3>
+                    <span class="badge rank-badge metric-badge">106,856 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：github</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> 💫 Toolkit to help you get started with Spec-Driven Development</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 github 维护的开源 Python 项目，当前约 106,856 Stars、9,460 Forks、106,856 Watchers，开放问题 431 个，最近更新于 2026-05-29 03:35:47。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>9,460</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>431</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>106,856</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>MIT</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>main</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2025-08-21 22:54:31</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:35:47</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>ai, copilot, development, engineering, prd, spec, spec-driven</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://github.github.com/spec-kit/</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="100242" data-forks="27877"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#19</span> <a href="https://github.com/pytorch/pytorch" target="_blank" rel="noopener noreferrer">pytorch</a></h3>
+                    <span class="badge rank-badge metric-badge">100,242 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：pytorch</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> Tensors and Dynamic neural networks in Python with strong GPU acceleration</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 pytorch 维护的开源 Python 项目，当前约 100,242 Stars、27,877 Forks、100,242 Watchers，开放问题 18,355 个，最近更新于 2026-05-29 03:42:16。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>27,877</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>18,355</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>100,242</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>Other</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>main</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2016-08-13 05:26:41</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 03:42:16</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>autograd, deep-learning, gpu, machine-learning, neural-network, numpy, python, tensor</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://pytorch.org</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+
+        <div class="col-12 repo-item" data-stars="98622" data-forks="9348"> 
+            <article class="repo-card p-4 p-md-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h3 class="repo-title mb-1"><span class="rank-num">#20</span> <a href="https://github.com/fastapi/fastapi" target="_blank" rel="noopener noreferrer">fastapi</a></h3>
+                    <span class="badge rank-badge metric-badge">98,622 Stars</span>
+                </div>
+                <p class="text-muted mb-3">作者：fastapi</p>
+                <p class="repo-desc mb-2"><strong>简介 EN:</strong> FastAPI framework, high performance, easy to learn, fast to code, ready for production</p>
+                <p class="repo-desc repo-desc-cn mb-3"><strong>概览 CN:</strong> 这是一个由 fastapi 维护的开源 Python 项目，当前约 98,622 Stars、9,348 Forks、98,622 Watchers，开放问题 90 个，最近更新于 2026-05-29 02:54:45。</p>
+                <button type="button" class="btn details-toggle mb-3" aria-expanded="false">展开详细信息</button>
+                <div class="repo-details is-collapsed">
+                <div class="row g-2 repo-meta">
+                    <div class="col-6 col-md-3"><span>Forks</span><strong>9,348</strong></div>
+                    <div class="col-6 col-md-3"><span>Open Issues</span><strong>90</strong></div>
+                    <div class="col-6 col-md-3"><span>Watchers</span><strong>98,622</strong></div>
+                    <div class="col-6 col-md-3"><span>Language / 语言</span><strong>Python</strong></div>
+                    <div class="col-6 col-md-3"><span>License / 许可证</span><strong>MIT</strong></div>
+                    <div class="col-6 col-md-3"><span>Default Branch</span><strong>master</strong></div>
+                    <div class="col-6 col-md-3"><span>创建时间</span><strong>2018-12-08 08:21:47</strong></div>
+                    <div class="col-6 col-md-3"><span>最近更新</span><strong>2026-05-29 02:54:45</strong></div>
+                    <div class="col-12"><span>Topics / 主题</span><strong>api, async, asyncio, fastapi, framework, json, json-schema, openapi</strong></div>
+                    <div class="col-12"><span>Homepage / 主页</span><strong>https://fastapi.tiangolo.com/</strong></div>
+                </div>
+                </div>
+            </article>
+        </div>
+        
+        </section>
+    </main>
+
+    <script id="chart-data" type="application/json">{"stars": {"x": ["<a href='https://github.com/public-apis/public-apis' target='_blank'>public-apis</a>", "<a href='https://github.com/EbookFoundation/free-programming-books' target='_blank'>free-programming-books</a>", "<a href='https://github.com/vinta/awesome-python' target='_blank'>awesome-python</a>", "<a href='https://github.com/TheAlgorithms/Python' target='_blank'>Python</a>", "<a href='https://github.com/Significant-Gravitas/AutoGPT' target='_blank'>AutoGPT</a>", "<a href='https://github.com/NousResearch/hermes-agent' target='_blank'>hermes-agent</a>", "<a href='https://github.com/yt-dlp/yt-dlp' target='_blank'>yt-dlp</a>", "<a href='https://github.com/huggingface/transformers' target='_blank'>transformers</a>", "<a href='https://github.com/521xueweihan/HelloGitHub' target='_blank'>HelloGitHub</a>", "<a href='https://github.com/langflow-ai/langflow' target='_blank'>langflow</a>", "<a href='https://github.com/anthropics/skills' target='_blank'>skills</a>", "<a href='https://github.com/open-webui/open-webui' target='_blank'>open-webui</a>", "<a href='https://github.com/langchain-ai/langchain' target='_blank'>langchain</a>", "<a href='https://github.com/microsoft/markitdown' target='_blank'>markitdown</a>", "<a href='https://github.com/anthropics/claude-code' target='_blank'>claude-code</a>", "<a href='https://github.com/Comfy-Org/ComfyUI' target='_blank'>ComfyUI</a>", "<a href='https://github.com/Shubhamsaboo/awesome-llm-apps' target='_blank'>awesome-llm-apps</a>", "<a href='https://github.com/github/spec-kit' target='_blank'>spec-kit</a>", "<a href='https://github.com/pytorch/pytorch' target='_blank'>pytorch</a>", "<a href='https://github.com/fastapi/fastapi' target='_blank'>fastapi</a>"], "y": [437682, 389111, 300107, 221459, 184624, 171784, 166383, 161032, 159154, 148856, 142999, 139100, 137909, 127940, 127418, 114817, 112059, 106856, 100242, 98622], "hover": ["作者：public-apis<br />星标：437,682<br />Forks：47,980<br />Watchers：437,682<br />Open Issues：1,373<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：api, apis, dataset, development, free, list, lists, open-source<br />最近更新时间：2026-05-29 03:27:20<br />简介 EN：A collective list of free APIs<br />概览 CN：这是一个由 public-apis 维护的开源 Python 项目，当前约 437,682 Stars、47,980 Forks、437,682 Watchers，开放问题 1,373 个，最近更新于 2026-05-29 03:27:20。", "作者：EbookFoundation<br />星标：389,111<br />Forks：66,354<br />Watchers：389,111<br />Open Issues：82<br />主语言 / Language：Python<br />许可证 / License：CC-BY-4.0<br />主题 / Topics：books, education, hacktoberfest, list, resource<br />最近更新时间：2026-05-29 03:37:37<br />简介 EN：:books: Freely available programming books<br />概览 CN：这是一个由 EbookFoundation 维护的开源 Python 项目，当前约 389,111 Stars、66,354 Forks、389,111 Watchers，开放问题 82 个，最近更新于 2026-05-29 03:37:37。", "作者：vinta<br />星标：300,107<br />Forks：27,988<br />Watchers：300,107<br />Open Issues：23<br />主语言 / Language：Python<br />许可证 / License：Other<br />主题 / Topics：awesome, collections, python, python-frameworks, python-libraries, python-tools<br />最近更新时间：2026-05-29 03:47:34<br />简介 EN：An opinionated list of Python frameworks, libraries, tools, and resources<br />概览 CN：这是一个由 vinta 维护的开源 Python 项目，当前约 300,107 Stars、27,988 Forks、300,107 Watchers，开放问题 23 个，最近更新于 2026-05-29 03:47:34。", "作者：TheAlgorithms<br />星标：221,459<br />Forks：50,670<br />Watchers：221,459<br />Open Issues：925<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：algorithm, algorithm-competitions, algorithms-implemented, algos, community-driven, education, hacktoberfest, interview<br />最近更新时间：2026-05-29 03:42:26<br />简介 EN：All Algorithms implemented in Python<br />概览 CN：这是一个由 TheAlgorithms 维护的开源 Python 项目，当前约 221,459 Stars、50,670 Forks、221,459 Watchers，开放问题 925 个，最近更新于 2026-05-29 03:42:26。", "作者：Significant-Gravitas<br />星标：184,624<br />Forks：46,208<br />Watchers：184,624<br />Open Issues：426<br />主语言 / Language：Python<br />许可证 / License：Other<br />主题 / Topics：agentic-ai, agents, ai, artificial-intelligence, autonomous-agents, claude, gpt, llama-api<br />最近更新时间：2026-05-29 03:44:01<br />简介 EN：AutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the tools, so that you can focus on what matters.<br />概览 CN：这是一个由 Significant-Gravitas 维护的开源 Python 项目，当前约 184,624 Stars、46,208 Forks、184,624 Watchers，开放问题 426 个，最近更新于 2026-05-29 03:44:01。", "作者：NousResearch<br />星标：171,784<br />Forks：28,833<br />Watchers：171,784<br />Open Issues：14,809<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：ai, ai-agent, ai-agents, anthropic, chatgpt, claude, claude-code, clawdbot<br />最近更新时间：2026-05-29 03:47:45<br />简介 EN：The agent that grows with you<br />概览 CN：这是一个由 NousResearch 维护的开源 Python 项目，当前约 171,784 Stars、28,833 Forks、171,784 Watchers，开放问题 14,809 个，最近更新于 2026-05-29 03:47:45。", "作者：yt-dlp<br />星标：166,383<br />Forks：13,990<br />Watchers：166,383<br />Open Issues：2,537<br />主语言 / Language：Python<br />许可证 / License：Unlicense<br />主题 / Topics：cli, downloader, python, sponsorblock, youtube-dl, youtube-downloader, yt-dlp<br />最近更新时间：2026-05-29 03:43:24<br />简介 EN：A feature-rich command-line audio/video downloader<br />概览 CN：这是一个由 yt-dlp 维护的开源 Python 项目，当前约 166,383 Stars、13,990 Forks、166,383 Watchers，开放问题 2,537 个，最近更新于 2026-05-29 03:43:24。", "作者：huggingface<br />星标：161,032<br />Forks：33,344<br />Watchers：161,032<br />Open Issues：2,385<br />主语言 / Language：Python<br />许可证 / License：Apache-2.0<br />主题 / Topics：audio, deep-learning, deepseek, gemma, glm, hacktoberfest, llm, machine-learning<br />最近更新时间：2026-05-29 03:13:26<br />简介 EN：🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training. <br />概览 CN：这是一个由 huggingface 维护的开源 Python 项目，当前约 161,032 Stars、33,344 Forks、161,032 Watchers，开放问题 2,385 个，最近更新于 2026-05-29 03:13:26。", "作者：521xueweihan<br />星标：159,154<br />Forks：12,068<br />Watchers：159,154<br />Open Issues：403<br />主语言 / Language：Python<br />许可证 / License：未声明 / Not specified<br />主题 / Topics：awesome, github, hellogithub, python<br />最近更新时间：2026-05-29 03:36:28<br />简介 EN：:octocat: 分享 GitHub 上有趣、入门级的开源项目。Share interesting, entry-level open source projects on GitHub.<br />概览 CN：这是一个由 521xueweihan 维护的开源 Python 项目，当前约 159,154 Stars、12,068 Forks、159,154 Watchers，开放问题 403 个，最近更新于 2026-05-29 03:36:28。", "作者：langflow-ai<br />星标：148,856<br />Forks：9,137<br />Watchers：148,856<br />Open Issues：935<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：agents, chatgpt, generative-ai, large-language-models, multiagent, react-flow<br />最近更新时间：2026-05-29 03:46:51<br />简介 EN：Langflow is a powerful tool for building and deploying AI-powered agents and workflows.<br />概览 CN：这是一个由 langflow-ai 维护的开源 Python 项目，当前约 148,856 Stars、9,137 Forks、148,856 Watchers，开放问题 935 个，最近更新于 2026-05-29 03:46:51。", "作者：anthropics<br />星标：142,999<br />Forks：16,887<br />Watchers：142,999<br />Open Issues：888<br />主语言 / Language：Python<br />许可证 / License：未声明 / Not specified<br />主题 / Topics：agent-skills<br />最近更新时间：2026-05-29 03:47:45<br />简介 EN：Public repository for Agent Skills<br />概览 CN：这是一个由 anthropics 维护的开源 Python 项目，当前约 142,999 Stars、16,887 Forks、142,999 Watchers，开放问题 888 个，最近更新于 2026-05-29 03:47:45。", "作者：open-webui<br />星标：139,100<br />Forks：19,935<br />Watchers：139,100<br />Open Issues：321<br />主语言 / Language：Python<br />许可证 / License：Other<br />主题 / Topics：ai, llm, llm-ui, llm-webui, llms, mcp, ollama, ollama-webui<br />最近更新时间：2026-05-29 03:46:53<br />简介 EN：User-friendly AI Interface (Supports Ollama, OpenAI API, ...)<br />概览 CN：这是一个由 open-webui 维护的开源 Python 项目，当前约 139,100 Stars、19,935 Forks、139,100 Watchers，开放问题 321 个，最近更新于 2026-05-29 03:46:53。", "作者：langchain-ai<br />星标：137,909<br />Forks：22,834<br />Watchers：137,909<br />Open Issues：595<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：agents, ai, ai-agents, anthropic, chatgpt, deepagents, enterprise, framework<br />最近更新时间：2026-05-29 03:21:30<br />简介 EN：The agent engineering platform.<br />概览 CN：这是一个由 langchain-ai 维护的开源 Python 项目，当前约 137,909 Stars、22,834 Forks、137,909 Watchers，开放问题 595 个，最近更新于 2026-05-29 03:21:30。", "作者：microsoft<br />星标：127,940<br />Forks：8,757<br />Watchers：127,940<br />Open Issues：671<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：autogen, autogen-extension, langchain, markdown, microsoft-office, openai, pdf<br />最近更新时间：2026-05-29 03:47:34<br />简介 EN：Python tool for converting files and office documents to Markdown.<br />概览 CN：这是一个由 microsoft 维护的开源 Python 项目，当前约 127,940 Stars、8,757 Forks、127,940 Watchers，开放问题 671 个，最近更新于 2026-05-29 03:47:34。", "作者：anthropics<br />星标：127,418<br />Forks：20,876<br />Watchers：127,418<br />Open Issues：9,140<br />主语言 / Language：Python<br />许可证 / License：未声明 / Not specified<br />主题 / Topics：无 / None<br />最近更新时间：2026-05-29 03:47:30<br />简介 EN：Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows - all through natural language commands.<br />概览 CN：这是一个由 anthropics 维护的开源 Python 项目，当前约 127,418 Stars、20,876 Forks、127,418 Watchers，开放问题 9,140 个，最近更新于 2026-05-29 03:47:30。", "作者：Comfy-Org<br />星标：114,817<br />Forks：13,413<br />Watchers：114,817<br />Open Issues：4,036<br />主语言 / Language：Python<br />许可证 / License：GPL-3.0<br />主题 / Topics：ai, comfy, comfyui, python, pytorch, stable-diffusion<br />最近更新时间：2026-05-29 03:44:01<br />简介 EN：The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface.<br />概览 CN：这是一个由 Comfy-Org 维护的开源 Python 项目，当前约 114,817 Stars、13,413 Forks、114,817 Watchers，开放问题 4,036 个，最近更新于 2026-05-29 03:44:01。", "作者：Shubhamsaboo<br />星标：112,059<br />Forks：16,633<br />Watchers：112,059<br />Open Issues：12<br />主语言 / Language：Python<br />许可证 / License：Apache-2.0<br />主题 / Topics：agents, llms, python, rag<br />最近更新时间：2026-05-29 03:42:58<br />简介 EN：100+ AI Agent & RAG apps you can actually run — clone, customize, ship.<br />概览 CN：这是一个由 Shubhamsaboo 维护的开源 Python 项目，当前约 112,059 Stars、16,633 Forks、112,059 Watchers，开放问题 12 个，最近更新于 2026-05-29 03:42:58。", "作者：github<br />星标：106,856<br />Forks：9,460<br />Watchers：106,856<br />Open Issues：431<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：ai, copilot, development, engineering, prd, spec, spec-driven<br />最近更新时间：2026-05-29 03:35:47<br />简介 EN：💫 Toolkit to help you get started with Spec-Driven Development<br />概览 CN：这是一个由 github 维护的开源 Python 项目，当前约 106,856 Stars、9,460 Forks、106,856 Watchers，开放问题 431 个，最近更新于 2026-05-29 03:35:47。", "作者：pytorch<br />星标：100,242<br />Forks：27,877<br />Watchers：100,242<br />Open Issues：18,355<br />主语言 / Language：Python<br />许可证 / License：Other<br />主题 / Topics：autograd, deep-learning, gpu, machine-learning, neural-network, numpy, python, tensor<br />最近更新时间：2026-05-29 03:42:16<br />简介 EN：Tensors and Dynamic neural networks in Python with strong GPU acceleration<br />概览 CN：这是一个由 pytorch 维护的开源 Python 项目，当前约 100,242 Stars、27,877 Forks、100,242 Watchers，开放问题 18,355 个，最近更新于 2026-05-29 03:42:16。", "作者：fastapi<br />星标：98,622<br />Forks：9,348<br />Watchers：98,622<br />Open Issues：90<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：api, async, asyncio, fastapi, framework, json, json-schema, openapi<br />最近更新时间：2026-05-29 02:54:45<br />简介 EN：FastAPI framework, high performance, easy to learn, fast to code, ready for production<br />概览 CN：这是一个由 fastapi 维护的开源 Python 项目，当前约 98,622 Stars、9,348 Forks、98,622 Watchers，开放问题 90 个，最近更新于 2026-05-29 02:54:45。"]}, "forks": {"x": ["<a href='https://github.com/EbookFoundation/free-programming-books' target='_blank'>free-programming-books</a>", "<a href='https://github.com/TheAlgorithms/Python' target='_blank'>Python</a>", "<a href='https://github.com/public-apis/public-apis' target='_blank'>public-apis</a>", "<a href='https://github.com/Significant-Gravitas/AutoGPT' target='_blank'>AutoGPT</a>", "<a href='https://github.com/huggingface/transformers' target='_blank'>transformers</a>", "<a href='https://github.com/NousResearch/hermes-agent' target='_blank'>hermes-agent</a>", "<a href='https://github.com/vinta/awesome-python' target='_blank'>awesome-python</a>", "<a href='https://github.com/pytorch/pytorch' target='_blank'>pytorch</a>", "<a href='https://github.com/langchain-ai/langchain' target='_blank'>langchain</a>", "<a href='https://github.com/anthropics/claude-code' target='_blank'>claude-code</a>", "<a href='https://github.com/open-webui/open-webui' target='_blank'>open-webui</a>", "<a href='https://github.com/anthropics/skills' target='_blank'>skills</a>", "<a href='https://github.com/Shubhamsaboo/awesome-llm-apps' target='_blank'>awesome-llm-apps</a>", "<a href='https://github.com/yt-dlp/yt-dlp' target='_blank'>yt-dlp</a>", "<a href='https://github.com/Comfy-Org/ComfyUI' target='_blank'>ComfyUI</a>", "<a href='https://github.com/521xueweihan/HelloGitHub' target='_blank'>HelloGitHub</a>", "<a href='https://github.com/github/spec-kit' target='_blank'>spec-kit</a>", "<a href='https://github.com/fastapi/fastapi' target='_blank'>fastapi</a>", "<a href='https://github.com/langflow-ai/langflow' target='_blank'>langflow</a>", "<a href='https://github.com/microsoft/markitdown' target='_blank'>markitdown</a>"], "y": [66354, 50670, 47980, 46208, 33344, 28833, 27988, 27877, 22834, 20876, 19935, 16887, 16633, 13990, 13413, 12068, 9460, 9348, 9137, 8757], "hover": ["作者：EbookFoundation<br />星标：389,111<br />Forks：66,354<br />Watchers：389,111<br />Open Issues：82<br />主语言 / Language：Python<br />许可证 / License：CC-BY-4.0<br />主题 / Topics：books, education, hacktoberfest, list, resource<br />最近更新时间：2026-05-29 03:37:37<br />简介 EN：:books: Freely available programming books<br />概览 CN：这是一个由 EbookFoundation 维护的开源 Python 项目，当前约 389,111 Stars、66,354 Forks、389,111 Watchers，开放问题 82 个，最近更新于 2026-05-29 03:37:37。", "作者：TheAlgorithms<br />星标：221,459<br />Forks：50,670<br />Watchers：221,459<br />Open Issues：925<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：algorithm, algorithm-competitions, algorithms-implemented, algos, community-driven, education, hacktoberfest, interview<br />最近更新时间：2026-05-29 03:42:26<br />简介 EN：All Algorithms implemented in Python<br />概览 CN：这是一个由 TheAlgorithms 维护的开源 Python 项目，当前约 221,459 Stars、50,670 Forks、221,459 Watchers，开放问题 925 个，最近更新于 2026-05-29 03:42:26。", "作者：public-apis<br />星标：437,682<br />Forks：47,980<br />Watchers：437,682<br />Open Issues：1,373<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：api, apis, dataset, development, free, list, lists, open-source<br />最近更新时间：2026-05-29 03:27:20<br />简介 EN：A collective list of free APIs<br />概览 CN：这是一个由 public-apis 维护的开源 Python 项目，当前约 437,682 Stars、47,980 Forks、437,682 Watchers，开放问题 1,373 个，最近更新于 2026-05-29 03:27:20。", "作者：Significant-Gravitas<br />星标：184,624<br />Forks：46,208<br />Watchers：184,624<br />Open Issues：426<br />主语言 / Language：Python<br />许可证 / License：Other<br />主题 / Topics：agentic-ai, agents, ai, artificial-intelligence, autonomous-agents, claude, gpt, llama-api<br />最近更新时间：2026-05-29 03:44:01<br />简介 EN：AutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the tools, so that you can focus on what matters.<br />概览 CN：这是一个由 Significant-Gravitas 维护的开源 Python 项目，当前约 184,624 Stars、46,208 Forks、184,624 Watchers，开放问题 426 个，最近更新于 2026-05-29 03:44:01。", "作者：huggingface<br />星标：161,032<br />Forks：33,344<br />Watchers：161,032<br />Open Issues：2,385<br />主语言 / Language：Python<br />许可证 / License：Apache-2.0<br />主题 / Topics：audio, deep-learning, deepseek, gemma, glm, hacktoberfest, llm, machine-learning<br />最近更新时间：2026-05-29 03:13:26<br />简介 EN：🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training. <br />概览 CN：这是一个由 huggingface 维护的开源 Python 项目，当前约 161,032 Stars、33,344 Forks、161,032 Watchers，开放问题 2,385 个，最近更新于 2026-05-29 03:13:26。", "作者：NousResearch<br />星标：171,784<br />Forks：28,833<br />Watchers：171,784<br />Open Issues：14,809<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：ai, ai-agent, ai-agents, anthropic, chatgpt, claude, claude-code, clawdbot<br />最近更新时间：2026-05-29 03:47:45<br />简介 EN：The agent that grows with you<br />概览 CN：这是一个由 NousResearch 维护的开源 Python 项目，当前约 171,784 Stars、28,833 Forks、171,784 Watchers，开放问题 14,809 个，最近更新于 2026-05-29 03:47:45。", "作者：vinta<br />星标：300,107<br />Forks：27,988<br />Watchers：300,107<br />Open Issues：23<br />主语言 / Language：Python<br />许可证 / License：Other<br />主题 / Topics：awesome, collections, python, python-frameworks, python-libraries, python-tools<br />最近更新时间：2026-05-29 03:47:34<br />简介 EN：An opinionated list of Python frameworks, libraries, tools, and resources<br />概览 CN：这是一个由 vinta 维护的开源 Python 项目，当前约 300,107 Stars、27,988 Forks、300,107 Watchers，开放问题 23 个，最近更新于 2026-05-29 03:47:34。", "作者：pytorch<br />星标：100,242<br />Forks：27,877<br />Watchers：100,242<br />Open Issues：18,355<br />主语言 / Language：Python<br />许可证 / License：Other<br />主题 / Topics：autograd, deep-learning, gpu, machine-learning, neural-network, numpy, python, tensor<br />最近更新时间：2026-05-29 03:42:16<br />简介 EN：Tensors and Dynamic neural networks in Python with strong GPU acceleration<br />概览 CN：这是一个由 pytorch 维护的开源 Python 项目，当前约 100,242 Stars、27,877 Forks、100,242 Watchers，开放问题 18,355 个，最近更新于 2026-05-29 03:42:16。", "作者：langchain-ai<br />星标：137,909<br />Forks：22,834<br />Watchers：137,909<br />Open Issues：595<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：agents, ai, ai-agents, anthropic, chatgpt, deepagents, enterprise, framework<br />最近更新时间：2026-05-29 03:21:30<br />简介 EN：The agent engineering platform.<br />概览 CN：这是一个由 langchain-ai 维护的开源 Python 项目，当前约 137,909 Stars、22,834 Forks、137,909 Watchers，开放问题 595 个，最近更新于 2026-05-29 03:21:30。", "作者：anthropics<br />星标：127,418<br />Forks：20,876<br />Watchers：127,418<br />Open Issues：9,140<br />主语言 / Language：Python<br />许可证 / License：未声明 / Not specified<br />主题 / Topics：无 / None<br />最近更新时间：2026-05-29 03:47:30<br />简介 EN：Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows - all through natural language commands.<br />概览 CN：这是一个由 anthropics 维护的开源 Python 项目，当前约 127,418 Stars、20,876 Forks、127,418 Watchers，开放问题 9,140 个，最近更新于 2026-05-29 03:47:30。", "作者：open-webui<br />星标：139,100<br />Forks：19,935<br />Watchers：139,100<br />Open Issues：321<br />主语言 / Language：Python<br />许可证 / License：Other<br />主题 / Topics：ai, llm, llm-ui, llm-webui, llms, mcp, ollama, ollama-webui<br />最近更新时间：2026-05-29 03:46:53<br />简介 EN：User-friendly AI Interface (Supports Ollama, OpenAI API, ...)<br />概览 CN：这是一个由 open-webui 维护的开源 Python 项目，当前约 139,100 Stars、19,935 Forks、139,100 Watchers，开放问题 321 个，最近更新于 2026-05-29 03:46:53。", "作者：anthropics<br />星标：142,999<br />Forks：16,887<br />Watchers：142,999<br />Open Issues：888<br />主语言 / Language：Python<br />许可证 / License：未声明 / Not specified<br />主题 / Topics：agent-skills<br />最近更新时间：2026-05-29 03:47:45<br />简介 EN：Public repository for Agent Skills<br />概览 CN：这是一个由 anthropics 维护的开源 Python 项目，当前约 142,999 Stars、16,887 Forks、142,999 Watchers，开放问题 888 个，最近更新于 2026-05-29 03:47:45。", "作者：Shubhamsaboo<br />星标：112,059<br />Forks：16,633<br />Watchers：112,059<br />Open Issues：12<br />主语言 / Language：Python<br />许可证 / License：Apache-2.0<br />主题 / Topics：agents, llms, python, rag<br />最近更新时间：2026-05-29 03:42:58<br />简介 EN：100+ AI Agent & RAG apps you can actually run — clone, customize, ship.<br />概览 CN：这是一个由 Shubhamsaboo 维护的开源 Python 项目，当前约 112,059 Stars、16,633 Forks、112,059 Watchers，开放问题 12 个，最近更新于 2026-05-29 03:42:58。", "作者：yt-dlp<br />星标：166,383<br />Forks：13,990<br />Watchers：166,383<br />Open Issues：2,537<br />主语言 / Language：Python<br />许可证 / License：Unlicense<br />主题 / Topics：cli, downloader, python, sponsorblock, youtube-dl, youtube-downloader, yt-dlp<br />最近更新时间：2026-05-29 03:43:24<br />简介 EN：A feature-rich command-line audio/video downloader<br />概览 CN：这是一个由 yt-dlp 维护的开源 Python 项目，当前约 166,383 Stars、13,990 Forks、166,383 Watchers，开放问题 2,537 个，最近更新于 2026-05-29 03:43:24。", "作者：Comfy-Org<br />星标：114,817<br />Forks：13,413<br />Watchers：114,817<br />Open Issues：4,036<br />主语言 / Language：Python<br />许可证 / License：GPL-3.0<br />主题 / Topics：ai, comfy, comfyui, python, pytorch, stable-diffusion<br />最近更新时间：2026-05-29 03:44:01<br />简介 EN：The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface.<br />概览 CN：这是一个由 Comfy-Org 维护的开源 Python 项目，当前约 114,817 Stars、13,413 Forks、114,817 Watchers，开放问题 4,036 个，最近更新于 2026-05-29 03:44:01。", "作者：521xueweihan<br />星标：159,154<br />Forks：12,068<br />Watchers：159,154<br />Open Issues：403<br />主语言 / Language：Python<br />许可证 / License：未声明 / Not specified<br />主题 / Topics：awesome, github, hellogithub, python<br />最近更新时间：2026-05-29 03:36:28<br />简介 EN：:octocat: 分享 GitHub 上有趣、入门级的开源项目。Share interesting, entry-level open source projects on GitHub.<br />概览 CN：这是一个由 521xueweihan 维护的开源 Python 项目，当前约 159,154 Stars、12,068 Forks、159,154 Watchers，开放问题 403 个，最近更新于 2026-05-29 03:36:28。", "作者：github<br />星标：106,856<br />Forks：9,460<br />Watchers：106,856<br />Open Issues：431<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：ai, copilot, development, engineering, prd, spec, spec-driven<br />最近更新时间：2026-05-29 03:35:47<br />简介 EN：💫 Toolkit to help you get started with Spec-Driven Development<br />概览 CN：这是一个由 github 维护的开源 Python 项目，当前约 106,856 Stars、9,460 Forks、106,856 Watchers，开放问题 431 个，最近更新于 2026-05-29 03:35:47。", "作者：fastapi<br />星标：98,622<br />Forks：9,348<br />Watchers：98,622<br />Open Issues：90<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：api, async, asyncio, fastapi, framework, json, json-schema, openapi<br />最近更新时间：2026-05-29 02:54:45<br />简介 EN：FastAPI framework, high performance, easy to learn, fast to code, ready for production<br />概览 CN：这是一个由 fastapi 维护的开源 Python 项目，当前约 98,622 Stars、9,348 Forks、98,622 Watchers，开放问题 90 个，最近更新于 2026-05-29 02:54:45。", "作者：langflow-ai<br />星标：148,856<br />Forks：9,137<br />Watchers：148,856<br />Open Issues：935<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：agents, chatgpt, generative-ai, large-language-models, multiagent, react-flow<br />最近更新时间：2026-05-29 03:46:51<br />简介 EN：Langflow is a powerful tool for building and deploying AI-powered agents and workflows.<br />概览 CN：这是一个由 langflow-ai 维护的开源 Python 项目，当前约 148,856 Stars、9,137 Forks、148,856 Watchers，开放问题 935 个，最近更新于 2026-05-29 03:46:51。", "作者：microsoft<br />星标：127,940<br />Forks：8,757<br />Watchers：127,940<br />Open Issues：671<br />主语言 / Language：Python<br />许可证 / License：MIT<br />主题 / Topics：autogen, autogen-extension, langchain, markdown, microsoft-office, openai, pdf<br />最近更新时间：2026-05-29 03:47:34<br />简介 EN：Python tool for converting files and office documents to Markdown.<br />概览 CN：这是一个由 microsoft 维护的开源 Python 项目，当前约 127,940 Stars、8,757 Forks、127,940 Watchers，开放问题 671 个，最近更新于 2026-05-29 03:47:34。"]}}</script>
+    <script>
+        const chartData = JSON.parse(document.getElementById("chart-data").textContent);
+        const starsBtn = document.getElementById("sort-stars");
+        const forksBtn = document.getElementById("sort-forks");
+        const toggleAllBtn = document.getElementById("toggle-all-details");
+        const repoList = document.getElementById("repo-list");
+        let allExpanded = false;
+
+        function setCardDetails(card, expand) {
+            const detailBox = card.querySelector(".repo-details");
+            const button = card.querySelector(".details-toggle");
+            if (!detailBox || !button) {
+                return;
+            }
+            detailBox.classList.toggle("is-collapsed", !expand);
+            button.setAttribute("aria-expanded", expand ? "true" : "false");
+            button.textContent = expand ? "收起详细信息" : "展开详细信息";
+        }
+
+        function updateToggleAllButton() {
+            if (!toggleAllBtn) {
+                return;
+            }
+            toggleAllBtn.textContent = allExpanded ? "全部收起" : "全部展开";
+        }
+
+        function updateButtons(mode) {
+            starsBtn.classList.toggle("active", mode === "stars");
+            forksBtn.classList.toggle("active", mode === "forks");
+        }
+
+        function updateCards(mode) {
+            const cards = Array.from(repoList.querySelectorAll(".repo-item"));
+            cards.sort((a, b) => Number(b.dataset[mode]) - Number(a.dataset[mode]));
+            cards.forEach((card, idx) => {
+                repoList.appendChild(card);
+                const rankNode = card.querySelector(".rank-num");
+                if (rankNode) {
+                    rankNode.textContent = `#${idx + 1}`;
+                }
+                const badge = card.querySelector(".metric-badge");
+                if (badge) {
+                    const value = Number(card.dataset[mode]).toLocaleString("zh-CN");
+                    badge.textContent = mode === "stars" ? `${value} Stars` : `${value} Forks`;
+                }
+            });
+        }
+
+        function updateChart(mode) {
+            const plot = document.querySelector(".js-plotly-plot");
+            if (!plot || !window.Plotly) {
+                return;
+            }
+            const data = chartData[mode];
+            window.Plotly.restyle(
+                plot,
+                {
+                    x: [data.x],
+                    y: [data.y],
+                    text: [data.y],
+                    hovertext: [data.hover],
+                    "marker.color": [data.y],
+                },
+                [0]
+            );
+            window.Plotly.relayout(plot, {
+                "yaxis.title.text": mode === "stars" ? "Star 数" : "Forks 数",
+                "title.text": mode === "stars" ? "GitHub 热门 Python 仓库 Top 20（按 Stars）" : "GitHub 热门 Python 仓库 Top 20（按 Forks）",
+            });
+        }
+
+        function applySort(mode) {
+            updateButtons(mode);
+            updateCards(mode);
+            updateChart(mode);
+        }
+
+        repoList.addEventListener("click", (event) => {
+            const button = event.target.closest(".details-toggle");
+            if (!button) {
+                return;
+            }
+
+            const card = button.closest(".repo-card");
+            if (!card) {
+                return;
+            }
+
+            const detailBox = card.querySelector(".repo-details");
+            if (!detailBox) {
+                return;
+            }
+
+            const willExpand = detailBox.classList.contains("is-collapsed");
+            setCardDetails(card, willExpand);
+            const cards = Array.from(repoList.querySelectorAll(".repo-item .repo-card"));
+            allExpanded = cards.length > 0 && cards.every((item) => !item.querySelector(".repo-details")?.classList.contains("is-collapsed"));
+            updateToggleAllButton();
+        });
+
+        toggleAllBtn.addEventListener("click", () => {
+            const targetExpand = !allExpanded;
+            const cards = Array.from(repoList.querySelectorAll(".repo-item .repo-card"));
+            cards.forEach((card) => setCardDetails(card, targetExpand));
+            allExpanded = targetExpand;
+            updateToggleAllButton();
+        });
+
+        updateToggleAllButton();
+
+        starsBtn.addEventListener("click", () => applySort("stars"));
+        forksBtn.addEventListener("click", () => applySort("forks"));
+    </script>
+</body>
+</html>

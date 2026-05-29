@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Top 20 热门项目分类分析</title>
+  <style>
+    :root {
+      --ink: #14263b;
+      --muted: #4b647c;
+      --bg: #f3f8fc;
+      --card: #ffffff;
+      --line: #d5e3f0;
+    }
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 8% 8%, #e5f2ff 0%, transparent 35%), var(--bg);
+    }
+    .wrap {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+    .hero {
+      background: linear-gradient(120deg, #0c2845, #1a4f7a);
+      color: #fff;
+      border-radius: 18px;
+      padding: 20px 22px;
+      box-shadow: 0 14px 30px rgba(17, 52, 86, 0.22);
+    }
+    .hero p {
+      margin: 6px 0 0;
+      color: #e8f2fb;
+    }
+    .panel {
+      margin-top: 16px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+    }
+    .insights {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: 0 6px 14px rgba(16, 55, 90, 0.08);
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1.03rem;
+    }
+    .card ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .card li {
+      margin: 6px 0;
+      line-height: 1.45;
+    }
+    .card a {
+      color: #125184;
+      text-decoration: none;
+      border-bottom: 1px dashed transparent;
+    }
+    .card a:hover {
+      border-bottom-color: #125184;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    @media (max-width: 860px) {
+      .insights {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>GitHub 热门项目 Top 20 分类分析</h1>
+      <p>分类维度：AI 项目、Python 项目、Skills 项目、编程辅助项目（基于仓库名称、描述、Topics 的关键词识别）。</p>
+      <p>生成时间：2026-05-29 11:51:21</p>
+    </section>
+
+    <section class="panel">
+      <div>                        <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.5.0.min.js" integrity="sha256-fHbNLP+GlIXN+efbQec78UkemUz3NJp7UmfGxC1tNxs=" crossorigin="anonymous"></script>                <div id="667b9c8a-65a9-4b49-a9a2-e727e6afb040" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("667b9c8a-65a9-4b49-a9a2-e727e6afb040")) {                    Plotly.newPlot(                        "667b9c8a-65a9-4b49-a9a2-e727e6afb040",                        [{"hole":0.55,"insidetextorientation":"radial","labels":["AI \u9879\u76ee","\u5176\u4ed6\u9879\u76ee"],"marker":{"colors":["#2E86AB","#DCE6EF"]},"textinfo":"percent+value","values":[15,5],"type":"pie","domain":{"x":[0.0,0.45],"y":[0.625,1.0]}},{"hole":0.55,"insidetextorientation":"radial","labels":["Python \u9879\u76ee","\u5176\u4ed6\u9879\u76ee"],"marker":{"colors":["#3BCEAC","#DCE6EF"]},"textinfo":"percent+value","values":[20,0],"type":"pie","domain":{"x":[0.55,1.0],"y":[0.625,1.0]}},{"hole":0.55,"insidetextorientation":"radial","labels":["Skills \u9879\u76ee","\u5176\u4ed6\u9879\u76ee"],"marker":{"colors":["#FF9F1C","#DCE6EF"]},"textinfo":"percent+value","values":[8,12],"type":"pie","domain":{"x":[0.0,0.45],"y":[0.0,0.375]}},{"hole":0.55,"insidetextorientation":"radial","labels":["\u7f16\u7a0b\u8f85\u52a9\u9879\u76ee","\u5176\u4ed6\u9879\u76ee"],"marker":{"colors":["#5C4D7D","#DCE6EF"]},"textinfo":"percent+value","values":[9,11],"type":"pie","domain":{"x":[0.55,1.0],"y":[0.0,0.375]}}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"annotations":[{"font":{"size":16},"showarrow":false,"text":"AI \u9879\u76ee\u5360\u6bd4","x":0.225,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Python \u9879\u76ee\u5360\u6bd4","x":0.775,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Skills \u9879\u76ee\u5360\u6bd4","x":0.225,"xanchor":"center","xref":"paper","y":0.375,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"\u7f16\u7a0b\u8f85\u52a9\u9879\u76ee\u5360\u6bd4","x":0.775,"xanchor":"center","xref":"paper","y":0.375,"yanchor":"bottom","yref":"paper"}],"title":{"text":"GitHub \u70ed\u95e8\u4ed3\u5e93 Top 20 \u5206\u7c7b\u5360\u6bd4\u5206\u6790","font":{"size":28,"family":"Microsoft YaHei"}},"font":{"family":"Microsoft YaHei, SimHei, sans-serif","size":13},"margin":{"l":20,"r":20,"t":90,"b":20},"legend":{"orientation":"h","y":-0.06,"x":0.5,"xanchor":"center"},"paper_bgcolor":"#F8FBFF"},                        {"displaylogo": false, "responsive": true}                    )                };            </script>        </div>
+    </section>
+
+    <section class="insights">
+      <section class="card">
+        <h3>最热门项目（按 Stars）</h3>
+        <ul><li><a href='https://github.com/public-apis/public-apis' target='_blank' rel='noopener noreferrer'>public-apis/public-apis</a>（437,682 Stars）</li><li><a href='https://github.com/EbookFoundation/free-programming-books' target='_blank' rel='noopener noreferrer'>EbookFoundation/free-programming-books</a>（389,111 Stars）</li><li><a href='https://github.com/vinta/awesome-python' target='_blank' rel='noopener noreferrer'>vinta/awesome-python</a>（300,108 Stars）</li></ul>
+      </section>
+      <section class="card">
+        <h3>最受关注项目（按 Watchers）</h3>
+        <ul><li><a href='https://github.com/public-apis/public-apis' target='_blank' rel='noopener noreferrer'>public-apis/public-apis</a>（437,682 Watchers）</li><li><a href='https://github.com/EbookFoundation/free-programming-books' target='_blank' rel='noopener noreferrer'>EbookFoundation/free-programming-books</a>（389,111 Watchers）</li><li><a href='https://github.com/vinta/awesome-python' target='_blank' rel='noopener noreferrer'>vinta/awesome-python</a>（300,108 Watchers）</li></ul>
+      </section>
+    </section>
+
+    <section class="insights">
+      
+        <section class='card'>
+            <h3>AI 项目（15 / 20）</h3>
+            <ul>
+                <li><a href='https://github.com/public-apis/public-apis' target='_blank' rel='noopener noreferrer'>public-apis/public-apis</a> <span class='meta'>Stars: 437,682 | Watchers: 437,682</span></li>
+<li><a href='https://github.com/EbookFoundation/free-programming-books' target='_blank' rel='noopener noreferrer'>EbookFoundation/free-programming-books</a> <span class='meta'>Stars: 389,111 | Watchers: 389,111</span></li>
+<li><a href='https://github.com/Significant-Gravitas/AutoGPT' target='_blank' rel='noopener noreferrer'>Significant-Gravitas/AutoGPT</a> <span class='meta'>Stars: 184,625 | Watchers: 184,625</span></li>
+<li><a href='https://github.com/NousResearch/hermes-agent' target='_blank' rel='noopener noreferrer'>NousResearch/hermes-agent</a> <span class='meta'>Stars: 171,786 | Watchers: 171,786</span></li>
+<li><a href='https://github.com/huggingface/transformers' target='_blank' rel='noopener noreferrer'>huggingface/transformers</a> <span class='meta'>Stars: 161,032 | Watchers: 161,032</span></li>
+<li><a href='https://github.com/langflow-ai/langflow' target='_blank' rel='noopener noreferrer'>langflow-ai/langflow</a> <span class='meta'>Stars: 148,856 | Watchers: 148,856</span></li>
+<li><a href='https://github.com/anthropics/skills' target='_blank' rel='noopener noreferrer'>anthropics/skills</a> <span class='meta'>Stars: 143,001 | Watchers: 143,001</span></li>
+<li><a href='https://github.com/open-webui/open-webui' target='_blank' rel='noopener noreferrer'>open-webui/open-webui</a> <span class='meta'>Stars: 139,104 | Watchers: 139,104</span></li>
+<li><a href='https://github.com/langchain-ai/langchain' target='_blank' rel='noopener noreferrer'>langchain-ai/langchain</a> <span class='meta'>Stars: 137,909 | Watchers: 137,909</span></li>
+<li><a href='https://github.com/microsoft/markitdown' target='_blank' rel='noopener noreferrer'>microsoft/markitdown</a> <span class='meta'>Stars: 127,944 | Watchers: 127,944</span></li>
+<li><a href='https://github.com/anthropics/claude-code' target='_blank' rel='noopener noreferrer'>anthropics/claude-code</a> <span class='meta'>Stars: 127,419 | Watchers: 127,419</span></li>
+<li><a href='https://github.com/Comfy-Org/ComfyUI' target='_blank' rel='noopener noreferrer'>Comfy-Org/ComfyUI</a> <span class='meta'>Stars: 114,817 | Watchers: 114,817</span></li>
+<li><a href='https://github.com/Shubhamsaboo/awesome-llm-apps' target='_blank' rel='noopener noreferrer'>Shubhamsaboo/awesome-llm-apps</a> <span class='meta'>Stars: 112,059 | Watchers: 112,059</span></li>
+<li><a href='https://github.com/github/spec-kit' target='_blank' rel='noopener noreferrer'>github/spec-kit</a> <span class='meta'>Stars: 106,857 | Watchers: 106,857</span></li>
+<li><a href='https://github.com/pytorch/pytorch' target='_blank' rel='noopener noreferrer'>pytorch/pytorch</a> <span class='meta'>Stars: 100,242 | Watchers: 100,242</span></li>
+            </ul>
+        </section>
+        
+
+        <section class='card'>
+            <h3>Python 项目（20 / 20）</h3>
+            <ul>
+                <li><a href='https://github.com/public-apis/public-apis' target='_blank' rel='noopener noreferrer'>public-apis/public-apis</a> <span class='meta'>Stars: 437,682 | Watchers: 437,682</span></li>
+<li><a href='https://github.com/EbookFoundation/free-programming-books' target='_blank' rel='noopener noreferrer'>EbookFoundation/free-programming-books</a> <span class='meta'>Stars: 389,111 | Watchers: 389,111</span></li>
+<li><a href='https://github.com/vinta/awesome-python' target='_blank' rel='noopener noreferrer'>vinta/awesome-python</a> <span class='meta'>Stars: 300,108 | Watchers: 300,108</span></li>
+<li><a href='https://github.com/TheAlgorithms/Python' target='_blank' rel='noopener noreferrer'>TheAlgorithms/Python</a> <span class='meta'>Stars: 221,459 | Watchers: 221,459</span></li>
+<li><a href='https://github.com/Significant-Gravitas/AutoGPT' target='_blank' rel='noopener noreferrer'>Significant-Gravitas/AutoGPT</a> <span class='meta'>Stars: 184,625 | Watchers: 184,625</span></li>
+<li><a href='https://github.com/NousResearch/hermes-agent' target='_blank' rel='noopener noreferrer'>NousResearch/hermes-agent</a> <span class='meta'>Stars: 171,786 | Watchers: 171,786</span></li>
+<li><a href='https://github.com/yt-dlp/yt-dlp' target='_blank' rel='noopener noreferrer'>yt-dlp/yt-dlp</a> <span class='meta'>Stars: 166,384 | Watchers: 166,384</span></li>
+<li><a href='https://github.com/huggingface/transformers' target='_blank' rel='noopener noreferrer'>huggingface/transformers</a> <span class='meta'>Stars: 161,032 | Watchers: 161,032</span></li>
+<li><a href='https://github.com/521xueweihan/HelloGitHub' target='_blank' rel='noopener noreferrer'>521xueweihan/HelloGitHub</a> <span class='meta'>Stars: 159,155 | Watchers: 159,155</span></li>
+<li><a href='https://github.com/langflow-ai/langflow' target='_blank' rel='noopener noreferrer'>langflow-ai/langflow</a> <span class='meta'>Stars: 148,856 | Watchers: 148,856</span></li>
+<li><a href='https://github.com/anthropics/skills' target='_blank' rel='noopener noreferrer'>anthropics/skills</a> <span class='meta'>Stars: 143,001 | Watchers: 143,001</span></li>
+<li><a href='https://github.com/open-webui/open-webui' target='_blank' rel='noopener noreferrer'>open-webui/open-webui</a> <span class='meta'>Stars: 139,104 | Watchers: 139,104</span></li>
+<li><a href='https://github.com/langchain-ai/langchain' target='_blank' rel='noopener noreferrer'>langchain-ai/langchain</a> <span class='meta'>Stars: 137,909 | Watchers: 137,909</span></li>
+<li><a href='https://github.com/microsoft/markitdown' target='_blank' rel='noopener noreferrer'>microsoft/markitdown</a> <span class='meta'>Stars: 127,944 | Watchers: 127,944</span></li>
+<li><a href='https://github.com/anthropics/claude-code' target='_blank' rel='noopener noreferrer'>anthropics/claude-code</a> <span class='meta'>Stars: 127,419 | Watchers: 127,419</span></li>
+<li><a href='https://github.com/Comfy-Org/ComfyUI' target='_blank' rel='noopener noreferrer'>Comfy-Org/ComfyUI</a> <span class='meta'>Stars: 114,817 | Watchers: 114,817</span></li>
+<li><a href='https://github.com/Shubhamsaboo/awesome-llm-apps' target='_blank' rel='noopener noreferrer'>Shubhamsaboo/awesome-llm-apps</a> <span class='meta'>Stars: 112,059 | Watchers: 112,059</span></li>
+<li><a href='https://github.com/github/spec-kit' target='_blank' rel='noopener noreferrer'>github/spec-kit</a> <span class='meta'>Stars: 106,857 | Watchers: 106,857</span></li>
+<li><a href='https://github.com/pytorch/pytorch' target='_blank' rel='noopener noreferrer'>pytorch/pytorch</a> <span class='meta'>Stars: 100,242 | Watchers: 100,242</span></li>
+<li><a href='https://github.com/fastapi/fastapi' target='_blank' rel='noopener noreferrer'>fastapi/fastapi</a> <span class='meta'>Stars: 98,622 | Watchers: 98,622</span></li>
+            </ul>
+        </section>
+        
+
+        <section class='card'>
+            <h3>Skills 项目（8 / 20）</h3>
+            <ul>
+                <li><a href='https://github.com/vinta/awesome-python' target='_blank' rel='noopener noreferrer'>vinta/awesome-python</a> <span class='meta'>Stars: 300,108 | Watchers: 300,108</span></li>
+<li><a href='https://github.com/TheAlgorithms/Python' target='_blank' rel='noopener noreferrer'>TheAlgorithms/Python</a> <span class='meta'>Stars: 221,459 | Watchers: 221,459</span></li>
+<li><a href='https://github.com/huggingface/transformers' target='_blank' rel='noopener noreferrer'>huggingface/transformers</a> <span class='meta'>Stars: 161,032 | Watchers: 161,032</span></li>
+<li><a href='https://github.com/521xueweihan/HelloGitHub' target='_blank' rel='noopener noreferrer'>521xueweihan/HelloGitHub</a> <span class='meta'>Stars: 159,155 | Watchers: 159,155</span></li>
+<li><a href='https://github.com/anthropics/skills' target='_blank' rel='noopener noreferrer'>anthropics/skills</a> <span class='meta'>Stars: 143,001 | Watchers: 143,001</span></li>
+<li><a href='https://github.com/Shubhamsaboo/awesome-llm-apps' target='_blank' rel='noopener noreferrer'>Shubhamsaboo/awesome-llm-apps</a> <span class='meta'>Stars: 112,059 | Watchers: 112,059</span></li>
+<li><a href='https://github.com/pytorch/pytorch' target='_blank' rel='noopener noreferrer'>pytorch/pytorch</a> <span class='meta'>Stars: 100,242 | Watchers: 100,242</span></li>
+<li><a href='https://github.com/fastapi/fastapi' target='_blank' rel='noopener noreferrer'>fastapi/fastapi</a> <span class='meta'>Stars: 98,622 | Watchers: 98,622</span></li>
+            </ul>
+        </section>
+        
+
+        <section class='card'>
+            <h3>编程辅助项目（9 / 20）</h3>
+            <ul>
+                <li><a href='https://github.com/vinta/awesome-python' target='_blank' rel='noopener noreferrer'>vinta/awesome-python</a> <span class='meta'>Stars: 300,108 | Watchers: 300,108</span></li>
+<li><a href='https://github.com/Significant-Gravitas/AutoGPT' target='_blank' rel='noopener noreferrer'>Significant-Gravitas/AutoGPT</a> <span class='meta'>Stars: 184,625 | Watchers: 184,625</span></li>
+<li><a href='https://github.com/yt-dlp/yt-dlp' target='_blank' rel='noopener noreferrer'>yt-dlp/yt-dlp</a> <span class='meta'>Stars: 166,384 | Watchers: 166,384</span></li>
+<li><a href='https://github.com/huggingface/transformers' target='_blank' rel='noopener noreferrer'>huggingface/transformers</a> <span class='meta'>Stars: 161,032 | Watchers: 161,032</span></li>
+<li><a href='https://github.com/langchain-ai/langchain' target='_blank' rel='noopener noreferrer'>langchain-ai/langchain</a> <span class='meta'>Stars: 137,909 | Watchers: 137,909</span></li>
+<li><a href='https://github.com/microsoft/markitdown' target='_blank' rel='noopener noreferrer'>microsoft/markitdown</a> <span class='meta'>Stars: 127,944 | Watchers: 127,944</span></li>
+<li><a href='https://github.com/anthropics/claude-code' target='_blank' rel='noopener noreferrer'>anthropics/claude-code</a> <span class='meta'>Stars: 127,419 | Watchers: 127,419</span></li>
+<li><a href='https://github.com/github/spec-kit' target='_blank' rel='noopener noreferrer'>github/spec-kit</a> <span class='meta'>Stars: 106,857 | Watchers: 106,857</span></li>
+<li><a href='https://github.com/fastapi/fastapi' target='_blank' rel='noopener noreferrer'>fastapi/fastapi</a> <span class='meta'>Stars: 98,622 | Watchers: 98,622</span></li>
+            </ul>
+        </section>
+        
+    </section>
+  </main>
+</body>
+</html>
